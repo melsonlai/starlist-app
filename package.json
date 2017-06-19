@@ -15,7 +15,7 @@
     "react-native": "0.45.1",
     "react-native-easy-grid-view": "^0.1.1",
     "react-native-infinite-scroll-view": "^0.4.3",
-    "react-native-vector-icons": "^4.1.1",
+    "react-native-vector-icons": "^4.2.0",
     "react-navigation": "^1.0.0-beta.11",
     "react-redux": "^5.0.5",
     "redux": "^3.7.0",
