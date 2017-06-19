@@ -17,18 +17,21 @@ export default class DrawerSideBar extends React.Component {
             <Image source={require('../images/account-bg.jpg')} style={styles.header}>
                 <Thumbnail large source={require('../images/account.jpg')} />
             </Image>
-            <Button block transparent style={styles.item} onPress={() => navigate('Today')}>
-                <Icon name='rocket' style={styles.icon} />
-                <Text style={styles.text}>Today</Text>
+            <Button block transparent style={styles.item} onPress={() => navigate('Astrology')}>
+                <Icon name='image-filter-tilt-shift' style={styles.icon} />
+                <Text style={styles.text}>Astrology</Text>
+                <Badge primary style={styles.badge}>
+                    <NbText style={styles.badgeText}>1</NbText>
+                </Badge>
+            </Button>
+            <Button block transparent style={styles.item} onPress={() => navigate('Horoscope')}>
+                <Icon name='google-circles-extended' style={styles.icon} />
+                <Text style={styles.text}>Horoscope</Text>
                 <Badge primary style={styles.badge}>
                     <NbText style={styles.badgeText}>2</NbText>
                 </Badge>
             </Button>
-            <Button block transparent style={styles.item} onPress={() => navigate('Forecast')}>
-                <Icon name='tag-multiple' style={styles.icon} />
-                <Text style={styles.text}>Forecast</Text>
-            </Button>
-            <Button block transparent style={styles.item}>
+            <Button block transparent style={styles.item} onPress={() => navigate('Settings')}>
                 <Icon name='settings' style={styles.icon}
                     onPress={() => {}} // TODO
                 />

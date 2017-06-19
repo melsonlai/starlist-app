@@ -50,7 +50,7 @@ class TodayScreen extends React.Component {
         return (
             <ParallaxNavigationContainer
                 navigate={navigate}
-                title='Today'
+                title='Astrology'
                 titleLeft={80}
                 titleTop={40}
                 renderHeaderContent={props => <WeatherDisplay {...props} />}

@@ -26,7 +26,7 @@ class ForecastScreen extends React.Component {
         const {searchText} = this.props;
         const {navigate} = this.props.navigation;
         return (
-            <NavigationContainer navigate={navigate} title='Forecast'>
+            <NavigationContainer navigate={navigate} title='Horoscope'>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                     <Text style={{textAlign: 'center'}}>Searchtext: {searchText}</Text>
                 </View>
