@@ -4,17 +4,24 @@ import {View, StyleSheet, Text, Platform} from 'react-native';
 
 import {connect} from 'react-redux';
 import {setToast} from '../states/toast';
-import {toggleTooltip} from "../states/todo-actions.js";
+import {toggleTooltip} from "../states/todo-actions";
 
 import moment from 'moment';
-import {ListItem, Icon} from 'native-base';
+import {CardItem, CheckBox} from 'native-base';
 import appColors from '../styles/colors';
 import appMetrics from '../styles/metrics';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import {toggleAccomplishTodo, deleteTodo} from "../api/todos";
 
 class TodoItem extends React.Component {
     static propTypes = {
-        id: PropTypes.number.isRequired,
-        text: PropTypes.string.isRequired,
+		id: PropTypes.number.isRequired,
+		title: PropTypes.string.isRequired,
+		content: PropTypes.string.isRequired,
+		deadline: PropTypes.number.isRequired,
+		importance: PropTypes.number.isRequired,
+		starID: PropTypes.number.isRequired,
 		ts: PropTypes.number.isRequired,
         tooltipOpen: PropTypes.bool.isRequired,
         dispatch: PropTypes.func.isRequired
@@ -27,21 +34,31 @@ class TodoItem extends React.Component {
     }
 
     render() {
-        const {id, text, ts, tooltipOpen} = this.props;
+        const {title, content, deadline, importance, starID, ts, doneTs, tooltipOpen} = this.props;
 
         return (
-            <ListItem onPress={this.handleTooltipToggle} style={StyleSheet.flatten(styles.listItem)}>
-                <View style={styles.todo}>
-                    <View style={styles.wrap}>
-                        <Text style={styles.ts}>{moment(ts * 1000).calendar()}</Text>
-                        <Text style={styles.text}>{text}</Text>
-                    </View>
-                </View>
-                {tooltipOpen &&
-                    <View style={styles.tooltip} onPress={this.handleTooltipToggle}>
-                    </View>
-                }
-            </ListItem>
+			<View>
+				<CardItem onPress={this.handleAccomplish}>
+					<CheckBox checked={!!doneTs} />
+				</CardItem>
+				<CardItem header onPress={this.handleTooltipToggle}>
+					<Text>{title}</Text>
+				</CardItem>
+	            <CardItem onPress={this.handleTooltipToggle} style={StyleSheet.flatten(styles.cardItem)}>
+	                <View style={styles.todo}>
+	                    <View style={styles.wrap}>
+	                        <Text style={styles.ts}>{moment(deadline * 1000).calendar()}</Text>
+	                        <Text style={styles.text}>{content}</Text>
+	                    </View>
+	                </View>
+	                {tooltipOpen &&
+	                    <View style={styles.tooltip} onPress={this.handleTooltipToggle}>
+							<Icon name="edit" onPress={this.handleEdit} />
+							<Icon name="delete" onPress={this.handleDelete} />
+	                    </View>
+	                }
+	            </CardItem>
+			</View>
         );
     }
 
@@ -49,8 +66,16 @@ class TodoItem extends React.Component {
         this.props.dispatch(toggleTooltip(this.props.id));
     }
 
-	handleDone() {
-		const {id} = this.props;
+	handleAccomplish() {
+		toggleAccomplishTodo(this.props.id);
+	}
+
+	handleEdit() {
+		this.props.navigate("EditScreen", {id: this.props.id});
+	}
+
+	handleDelete() {
+		deleteTodo(this.props.id);
 	}
 }
 
@@ -60,7 +85,7 @@ class TodoItem extends React.Component {
  * instead of creating a new style object every time.
  */
 const styles = StyleSheet.create({
-    listItem: {
+    cardItem: {
         flexDirection: 'column',
         alignItems: 'stretch',
         marginLeft: 0

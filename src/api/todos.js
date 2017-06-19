@@ -73,13 +73,17 @@ export function createTodo(title, content, importance, date, isFullDay, time) {
     });*/
 }
 
-export function accomplishTodo(id) {
+export function toggleAccomplishTodo(id) {
 	return listTodos().then(todos => {
 		let rtn;
 
 		for(let t of todos) {
 			if(t.id === id) {
-				t.doneTs = moment().unix();
+				if (t.doneTs) {
+					t.doneTs = null;
+				} else {
+					t.doneTs = moment().unix();
+				}
 				rtn = t;
 				break;
 			}
@@ -98,4 +102,20 @@ export function accomplishTodo(id) {
 
         return res.data;
     });*/
+}
+
+export function deleteTodo(id) {
+	return listTodos().then(todos => {
+		let rtn;
+
+		todos.filter(function(t) {
+			if (t.id === id) {
+				rtn = t;
+				return false;
+			} else return true;
+		});
+		AsyncStorage.setItem(todoKey, JSON.stringify(todos));
+
+		return rtn;
+	});
 }
