@@ -2,4 +2,4 @@
 import {AppRegistry} from 'react-native';
 import App from './src/app';
 
-AppRegistry.registerComponent('WeatherMoodMobile', () => App);
+AppRegistry.registerComponent('StarlistAPP', () => App);
