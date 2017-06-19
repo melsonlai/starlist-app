@@ -41,6 +41,10 @@ export default class DrawerSideBar extends React.Component {
                 <Icon name='view-dashboard' style={styles.icon} />
                 <Text style={styles.text}>Material_Home</Text>
             </Button>
+            <Button block transparent style={styles.item} onPress={() => navigate('Edit')}>
+                <Icon name='pencil' style={styles.icon} />
+                <Text style={styles.text}>Edit</Text>
+            </Button>
         </Container>
     );
     }
