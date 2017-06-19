@@ -17,11 +17,13 @@ import {StackNavigator, NavigationActions, addNavigationHelpers} from 'react-nav
 import TodayScreen from './components/TodayScreen';
 import PostFormScreen from './components/PostFormScreen';
 import ForecastScreen from './components/ForecastScreen';
+import MaterialHome from './components/MaterialHome';
 
 const AppNavigator = StackNavigator({
-    Today: {screen: TodayScreen},
-    Forecast: {screen: ForecastScreen},
-    PostForm: {screen: PostFormScreen}
+    Astrology: {screen: TodayScreen},
+    Horoscope: {screen: ForecastScreen},
+    PostForm: {screen: PostFormScreen},
+    MaterialHome: {screen: MaterialHome}
 }, {
     headerMode: 'none'
 });
