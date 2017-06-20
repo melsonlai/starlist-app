@@ -101,7 +101,11 @@ export function todoList(state = initTodoListState, action) {
 const initTodoFormState = {
     titleValue: '',
     titleDanger: false,
-	dueDate: new Date(0)
+	dueDate: new Date(0),
+	dueTime: {
+		hour: 0,
+		minute: 0
+	}
 };
 
 export function todoForm(state = initTodoFormState, action) {
@@ -120,6 +124,11 @@ export function todoForm(state = initTodoFormState, action) {
 			return {
 				...state,
 				dueDate: action.dueDate
+			};
+		case "@TODO_FORM/SET_DUE_TIME":
+			return {
+				...state,
+				dueTime: action.dueTime
 			};
 		case "@TODO_FORM/CLEAR_TODO_FORM":
 			return initTodoFormState;

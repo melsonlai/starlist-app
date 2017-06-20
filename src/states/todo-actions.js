@@ -128,6 +128,13 @@ export function setDueDate(dueDate) {
 	};
 }
 
+export function setDueTime(dueTime) {
+	return {
+		type: "@TODO_FORM/SET_DUE_TIME",
+		dueTime
+	};
+}
+
 export function clearTodoForm() {
 	return {
 		type: "@TODO_FORM/CLEAR_TODO_FORM"

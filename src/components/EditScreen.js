@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View,
-  DatePickerAndroid
+	View,
+	DatePickerAndroid,
+	TimePickerAndroid
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {createTodo, setTitleValue, setTitleDanger, setDueDate, clearTodoForm} from '../states/todo-actions';
+import {createTodo, setTitleValue, setTitleDanger, setDueDate, setDueTime, clearTodoForm} from '../states/todo-actions';
 import {setToast} from '../states/toast';
 
 import {Container, Header, Content, Title, Icon, Button, Item, Label, Input, Form, Switch, Left, Body, Right} from 'native-base';
@@ -27,10 +28,11 @@ class EditScreen extends React.Component {
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleCreatTodo = this.handleCreatTodo.bind(this);
 		this.handleDatePicking = this.handleDatePicking.bind(this);
+		this.handleTimePicking = this.handleTimePicking.bind(this);
     }
 
     render() {
-        const {titleValue, titleDanger, dueDate} = this.props;
+        const {titleValue, titleDanger, dueDate, dueTime} = this.props;
         return (
             <Container>
                 <Header>
@@ -49,10 +51,14 @@ class EditScreen extends React.Component {
 								<Label>What's Next To Do?</Label>
 		                        <Input autoFocus maxLength={1024} value={titleValue} onChange={this.handleTitleChange} />
 		                    </Item>
-                            <Item floatingLabel>
+                            <Item floatingLabel style={styles.item}>
                                 <Label>Due Date</Label>
                                 <Input value={dueDate.toDateString()} onFocus={this.handleDatePicking}/>
                             </Item>
+							<Item floatingLabel style={styles.item}>
+								<Label>Due Time</Label>
+								<Input value={`${dueTime.hour < 10 ? "0" : ""}${dueTime.hour}:${dueTime.minute < 10 ? "0" : ""}${dueTime.minute}`} onFocus={this.handleTimePicking} />
+							</Item>
                         </Form>
 
                         <Switch value={false} />
@@ -88,6 +94,23 @@ class EditScreen extends React.Component {
 			}
 		} catch ({code, message}) {
 			console.warn('Cannot open date picker', message);
+		}
+	}
+
+	async handleTimePicking() {
+		try {
+			const {dueTime} = this.props;
+			const {action, hour, minute} = await TimePickerAndroid.open({
+				hour: dueTime.hour,
+				minute: dueTime.minute,
+				is24Hour: false // Will display '2 PM'
+			});
+			if (action !== TimePickerAndroid.dismissedAction) {
+				// Selected hour (0-23), minute (0-59)
+				this.props.dispatch(setDueTime({hour, minute}));
+			}
+		} catch ({code, message}) {
+			console.warn('Cannot open time picker', message);
 		}
 	}
 
