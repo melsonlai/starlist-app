@@ -1,4 +1,7 @@
-import {listTodos as listTodosFromApi} from "../api/todos.js";
+import {
+	listTodos as listTodosFromApi,
+	createTodo as createTodoFromApi
+} from "../api/todos.js";
 
 /*  Todo item */
 
@@ -52,6 +55,19 @@ export function toggleUnaccomplishedOnly() {
 	};
 }
 
+function startCreateTodo() {
+	return {
+		type: "@TODO_LIST/START_CREATE_TODO"
+	};
+}
+
+function endCreateTodo(todo) {
+	return {
+		type: "@TODO_LIST/END_CREATE_TODO",
+		todo
+	};
+}
+
 export function listTodos(searchText) {
     return (dispatch, getState) => {
         dispatch(startListTodos());
@@ -72,6 +88,19 @@ export function listMoreTodos(searchText, start) {
         }).catch(err => {
             dispatch(endListMoreTodos());
             console.error('Error listing more todos', err);
+        });
+    };
+};
+
+export function createTodo(title, data, isFullDay, time) {
+    return (dispatch, getState) => {
+        dispatch(startCreateTodo());
+
+        return createTodoFromApi(title, data, isFullDay, time).then(todo => {
+            dispatch(endCreateTodo(todo));
+        }).catch(err => {
+            dispatch(endCreateTodo())
+            console.error('Error creating todo', err);
         });
     };
 };
