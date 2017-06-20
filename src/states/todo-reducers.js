@@ -32,7 +32,8 @@ const initTodoListState = {
     listingMoreTodos: undefined, // id of todo from which to start
     todos: [],
     hasMore: true,
-	unaccomplishedOnly: false
+	unaccomplishedOnly: false,
+	creatingTodo: false
 };
 export function todoList(state = initTodoListState, action) {
     switch (action.type) {
@@ -72,6 +73,24 @@ export function todoList(state = initTodoListState, action) {
 				...state,
 				unaccomplishedOnly: !state.unaccomplishedOnly
 			}
+		case '@TODO_LIST/START_CREATE_TODO':
+            return {
+                ...state,
+                creatingTodo: true
+            };
+        case '@POST/END_CREATE_TODO':
+            if (!action.todo)
+                return {
+                    ...state,
+                    creatingPost: false
+                };
+            var newTodos = state.todos.slice();
+            newTodos.unshift(action.todo);
+            return {
+                ...state,
+                creatingTodo: false,
+                todos: newTodos
+            };
         default:
             return state;
     }
