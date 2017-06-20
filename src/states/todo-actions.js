@@ -32,6 +32,20 @@ function endListTodos(todos) {
 	};
 }
 
+function startListMoreTodos(start) {
+	return {
+		type: "@TODO_LIST/START_LIST_MORE_TODOS",
+		start
+	};
+}
+
+function endListMoreTodos(todos) {
+	return {
+		type: "@TODO_LIST/END_LIST_MORE_TODOS",
+		todos
+	};
+}
+
 export function listTodos(unaccomplishedOnly, searchText) {
     return (dispatch, getState) => {
         dispatch(startListTodos());
@@ -44,14 +58,14 @@ export function listTodos(unaccomplishedOnly, searchText) {
     };
 };
 
-export function listMorePosts(searchText, start) {
+export function listMoreTodos(unaccomplishedOnly, searchText, start) {
     return (dispatch, getState) => {
-        dispatch(startListMorePosts(start));
-        return listPostsFromApi(searchText, start).then(posts => {
-            dispatch(endListMorePosts(posts));
+        dispatch(startListMoreTodos(start));
+        return listTodosFromApi(unaccomplishedOnly, searchText, start).then(todos => {
+            dispatch(endListMoreTodos(todos));
         }).catch(err => {
-            dispatch(endListMorePosts());
-            console.error('Error listing more posts', err);
+            dispatch(endListMoreTodos());
+            console.error('Error listing more todos', err);
         });
     };
 };
