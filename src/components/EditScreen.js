@@ -1,21 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View
+  View,
+  DatePickerAndroid
 } from 'react-native';
 
 import {connect} from 'react-redux';
-import {createTodo, setTitleValue, setTitleDanger} from '../states/todo-actions';
+import {createTodo, setTitleValue, setTitleDanger, setDueDate, clearTodoForm} from '../states/todo-actions';
 import {setToast} from '../states/toast';
 
-import {Container, Header, Content, Title, Icon, Button, Item, Label, Card, CardItem, Input, Form, Switch, List, ListItem, Left, Body, Right, Picker} from 'native-base';
+import {Container, Header, Content, Title, Icon, Button, Item, Label, Input, Form, Switch, Left, Body, Right} from 'native-base';
 import appColors from '../styles/colors';
 
 class EditScreen extends React.Component {
     static propTypes = {
         navigation: PropTypes.object.isRequired,
         titleValue: PropTypes.string.isRequired,
-        titleDanger: PropTypes.bool.isRequired
+        titleDanger: PropTypes.bool.isRequired,
+		dueDate: PropTypes.instanceOf(Date)
     };
 
     constructor(props) {
@@ -24,10 +26,11 @@ class EditScreen extends React.Component {
         this.handleGoBack = this.handleGoBack.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleCreatTodo = this.handleCreatTodo.bind(this);
+		this.handleDatePicking = this.handleDatePicking.bind(this);
     }
 
     render() {
-        const {titleValue, titleDanger} = this.props;
+        const {titleValue, titleDanger, dueDate} = this.props;
         return (
             <Container>
                 <Header>
@@ -37,7 +40,7 @@ class EditScreen extends React.Component {
                     </Button></Left>
                     <Body><Title>Edit Todo</Title></Body>
                     <Right><Button transparent onPress={this.handleCreatTodo}>
-                        <Icon name='check'  style={{fontSize: 24}} />
+                        <Icon name='check' style={{fontSize: 24}} />
                     </Button></Right>
                 </Header>
                 <Content style={styles.content}>
@@ -48,7 +51,7 @@ class EditScreen extends React.Component {
 		                    </Item>
                             <Item floatingLabel>
                                 <Label>Due Date</Label>
-                                <Input />
+                                <Input value={dueDate.toDateString()} onFocus={this.handleDatePicking}/>
                             </Item>
                         </Form>
 
@@ -59,7 +62,8 @@ class EditScreen extends React.Component {
     }
 
     handleGoBack() {
-         this.props.navigation.goBack();
+		this.props.navigation.goBack();
+		this.props.dispatch(clearTodoForm());
     }
 
     handleTitleChange(e) {
@@ -69,6 +73,23 @@ class EditScreen extends React.Component {
             dispatch(setTitleDanger(false));
         dispatch(setTitleValue(titleValue));
     }
+
+	async handleDatePicking() {
+		try {
+			const {action, year, month, day} = await DatePickerAndroid.open({
+				// Use `new Date()` for current date.
+				// May 25 2020. Month 0 is January.
+				date: new Date(),
+				minDate: new Date()
+			});
+			if (action !== DatePickerAndroid.dismissedAction) {
+				// Selected year, month (0-11), day
+				this.props.dispatch(setDueDate(new Date(year, month, day)));
+			}
+		} catch ({code, message}) {
+			console.warn('Cannot open date picker', message);
+		}
+	}
 
     handleCreatTodo() {// FIX
         const {mood, inputValue, dispatch} = this.props;

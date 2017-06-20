@@ -120,3 +120,16 @@ export function setTitleDanger(titleDanger) {
         titleDanger
     };
 };
+
+export function setDueDate(dueDate) {
+	return {
+		type: "@TODO_FORM/SET_DUE_DATE",
+		dueDate
+	};
+}
+
+export function clearTodoForm() {
+	return {
+		type: "@TODO_FORM/CLEAR_TODO_FORM"
+	};
+}

@@ -100,7 +100,8 @@ export function todoList(state = initTodoListState, action) {
 
 const initTodoFormState = {
     titleValue: '',
-    titleDanger: false
+    titleDanger: false,
+	dueDate: new Date(0)
 };
 
 export function todoForm(state = initTodoFormState, action) {
@@ -115,6 +116,13 @@ export function todoForm(state = initTodoFormState, action) {
                 ...state,
                 titleDanger: action.titleDanger
             };
+		case "@TODO_FORM/SET_DUE_DATE":
+			return {
+				...state,
+				dueDate: action.dueDate
+			};
+		case "@TODO_FORM/CLEAR_TODO_FORM":
+			return initTodoFormState;
         default:
             return state;
     }

@@ -128,5 +128,5 @@ const styles = StyleSheet.create({
 });
 
 export default connect((state, ownProps) => ({
-    tooltipOpen: state.postItem.tooltipOpen[ownProps.id] ? true : false
+    tooltipOpen: state.todoItem.tooltipOpen[ownProps.id] ? true : false
 }))(PostItem);
