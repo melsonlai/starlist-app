@@ -95,3 +95,27 @@ export function todoList(state = initTodoListState, action) {
             return state;
     }
 }
+
+/* Todo Form */
+
+const initTodoFormState = {
+    titleValue: '',
+    titleDanger: false
+};
+
+export function todoForm(state = initTodoFormState, action) {
+    switch (action.type) {
+        case '@TODO_FORM/SET_TITLE_VALUE':
+            return {
+                ...state,
+                titleValue: action.titleValue
+            };
+        case '@TODO_FORM/SET_TITLE_DANGER':
+            return {
+                ...state,
+                titleDanger: action.titleDanger
+            };
+        default:
+            return state;
+    }
+}

@@ -104,3 +104,19 @@ export function createTodo(title, data, isFullDay, time) {
         });
     };
 };
+
+/*  Todo Form */
+
+export function setTitleValue(titleValue) {
+    return {
+        type: '@TODO_FORM/SET_TITLE_VALUE',
+        titleValue
+    };
+};
+
+export function setTitleDanger(titleDanger) {
+    return {
+        type: '@TODO_FORM/SET_TITLE_DANGER',
+        titleDanger
+    };
+};
