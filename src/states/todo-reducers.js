@@ -31,7 +31,8 @@ const initTodoListState = {
     listingTodos: false,
     listingMoreTodos: undefined, // id of todo from which to start
     todos: [],
-    hasMore: true
+    hasMore: true,
+	unaccomplishedOnly: false
 };
 export function todoList(state = initTodoListState, action) {
     switch (action.type) {
@@ -66,6 +67,11 @@ export function todoList(state = initTodoListState, action) {
                 todos: [...state.todos, ...action.todos],
                 hasMore: action.todos.length > 0
             };
+		case "@TODO_LIST/TOGGLE_UNACCOMPLISHED_ONLY":
+			return {
+				...state,
+				unaccomplishedOnly: !state.unaccomplishedOnly
+			}
         default:
             return state;
     }

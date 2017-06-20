@@ -23,7 +23,7 @@ export function listTodos(unaccomplishedOnly = false, searchText = '', start) {
 		if (start) {
 			todos = todos.slice(start, start + 10);
 		}
-		
+
 		resolve(todos);
 	});
 /*	let url = `${todoBaseUrl}/${todoKey}`;
@@ -49,7 +49,7 @@ export function createTodo(title, date, isFullDay, time) {
 	return listTodos().then(todos => {
 		const deadline = isFullDay ? (moment(date).add(1, 'd')) : (moment(date).add(time.getHours(), 'h').add(time.getMinutes(), 'm'));
 		const newTodo = {
-			id: uuid(),
+			id: todos.length,
 			title: title,
 			deadline: deadline.unix(),
 			starID: uuid(),

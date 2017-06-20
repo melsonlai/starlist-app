@@ -9,20 +9,21 @@ import InfiniteScrollView from 'react-native-infinite-scroll-view';
 import TodoItem from './TodoItem';
 
 import {connect} from 'react-redux';
-import {listPosts, listMorePosts} from '../states/post-actions';
+import {listTodos, listMoreTodos} from '../states/todo-actions';
 
-class PostList extends React.Component {
+class TodoList extends React.Component {
     static propTypes = {
         searchText: PropTypes.string.isRequired,
-        listingPosts: PropTypes.bool.isRequired,
-        listingMorePosts: PropTypes.oneOfType([
+        listingTodos: PropTypes.bool.isRequired,
+        listingMoreTodos: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number
         ]),
-        posts: PropTypes.array.isRequired,
-        hasMorePosts: PropTypes.bool.isRequired,
+        todos: PropTypes.array.isRequired,
+        hasMoreTodos: PropTypes.bool.isRequired,
         dispatch: PropTypes.func.isRequired,
-        scrollProps: PropTypes.object
+        scrollProps: PropTypes.object,
+		unaccomplishedOnly: PropTypes.bool.isRequired
     };
 
     constructor(props) {
@@ -39,38 +40,38 @@ class PostList extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(listPosts(this.props.searchText));
+        this.props.dispatch(listTodos(this.props.searchText));
     }
 
     componentWillReceiveProps(nextProps) {
-        const {searchText, dispatch, posts} = this.props;
+        const {searchText, dispatch, todos} = this.props;
         if (searchText !== nextProps.searchText) {
             dispatch(listPosts(nextProps.searchText));
         }
-        if (posts !== nextProps.posts) {
+        if (todos !== nextProps.todos) {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(nextProps.posts)
+                dataSource: this.state.dataSource.cloneWithRows(nextProps.todos)
             });
         }
     }
 
     render() {
-        const {listingPosts, hasMorePosts, posts, scrollProps} = this.props;
+        const {listingTodos, hasMoreTodos, todos, scrollProps} = this.props;
         return (
             <ListView
                 refreshControl={
-                    <RefreshControl refreshing={listingPosts} onRefresh={this.handleRefresh} />
+                    <RefreshControl refreshing={listingTodos} onRefresh={this.handleRefresh} />
                 }
                 distanceToLoadMore={300}
                 renderScrollComponent={props => <InfiniteScrollView {...props} />}
                 dataSource={this.state.dataSource}
-                renderRow={(p) => {
-                    return <PostItem {...p} />;
+                renderRow={(t) => {
+                    return <TodoItem {...t} />;
                 }}
                 canLoadMore={() => {
-                    if (listingPosts || !posts.length)
+                    if (listingTodos || !todos.length)
                         return false;
-                    return hasMorePosts;
+                    return hasMoreTodos;
                 }}
                 onLoadMoreAsync={this.handleLoadMore}
                 style={{backgroundColor: '#fff'}}
@@ -82,21 +83,22 @@ class PostList extends React.Component {
 
     handleRefresh() {
         const {dispatch, searchText} = this.props;
-        dispatch(listPosts(searchText));
+        dispatch(listTodos(searchText));
     }
 
     handleLoadMore() {
-        const {listingMorePosts, dispatch, posts, searchText} = this.props;
-        const start = posts[posts.length - 1].id;
-        if (listingMorePosts !== start)
-            dispatch(listMorePosts(searchText, start));
+        const {listingMoreTodos, dispatch, todos, searchText} = this.props;
+        const start = todos[todos.length - 1].id;
+        if (listingMoreTodos !== start)
+            dispatch(listMoreTodos(searchText, start));
     }
 }
 
 export default connect((state, ownProps) => ({
     searchText: state.search.searchText,
-    listingPosts: state.post.listingPosts,
-    listingMorePosts: state.post.listingMorePosts,
-    posts: state.post.posts,
-    hasMorePosts: state.post.hasMore
-}))(PostList);
+    listingTodos: state.todoList.listingTodos,
+    listingMoreTodos: state.todoList.listingMoreTodos,
+    todos: state.todoList.todos,
+    hasMoreTodos: state.todoList.hasMore,
+	unaccomplishedOnly: state.todoList.unaccomplishedOnly
+}))(TodoList);

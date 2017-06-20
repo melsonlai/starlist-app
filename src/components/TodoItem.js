@@ -21,6 +21,10 @@ class TodoItem extends React.Component {
 		deadline: PropTypes.number.isRequired,
 		starID: PropTypes.number.isRequired,
 		ts: PropTypes.number.isRequired,
+		doneTs: PropTypes.oneOfType([
+			PropTypes.number,
+			PropTypes.object
+		]),
         tooltipOpen: PropTypes.bool.isRequired,
         dispatch: PropTypes.func.isRequired
     };

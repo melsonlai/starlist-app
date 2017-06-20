@@ -19,7 +19,7 @@ export function setTooltipToggle(id, toggle) {
 
 /* Todo List */
 
-function startListTodos() {
+function startListTodos(unaccomplishedOnly) {
 	return {
 		type: "@TODO_LIST/START_LIST_TODOS"
 	};
@@ -32,7 +32,7 @@ function endListTodos(todos) {
 	};
 }
 
-function startListMoreTodos(start) {
+function startListMoreTodos(unaccomplishedOnly, start) {
 	return {
 		type: "@TODO_LIST/START_LIST_MORE_TODOS",
 		start
@@ -46,10 +46,16 @@ function endListMoreTodos(todos) {
 	};
 }
 
-export function listTodos(unaccomplishedOnly, searchText) {
+export function toggleUnaccomplishedOnly() {
+	return {
+		type: "@TODO_LIST/TOGGLE_UNACCOMPLISHED_ONLY"
+	};
+}
+
+export function listTodos(searchText) {
     return (dispatch, getState) => {
         dispatch(startListTodos());
-        return listTodosFromApi(unaccomplishedOnly, searchText).then(todos => {
+        return listTodosFromApi(getState().unaccomplishedOnly, searchText).then(todos => {
             dispatch(endListTodos(todos));
         }).catch(err => {
             dispatch(endListTodos());
@@ -58,10 +64,10 @@ export function listTodos(unaccomplishedOnly, searchText) {
     };
 };
 
-export function listMoreTodos(unaccomplishedOnly, searchText, start) {
+export function listMoreTodos(searchText, start) {
     return (dispatch, getState) => {
         dispatch(startListMoreTodos(start));
-        return listTodosFromApi(unaccomplishedOnly, searchText, start).then(todos => {
+        return listTodosFromApi(getState().unaccomplishedOnly, searchText, start).then(todos => {
             dispatch(endListMoreTodos(todos));
         }).catch(err => {
             dispatch(endListMoreTodos());
