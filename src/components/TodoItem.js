@@ -18,9 +18,7 @@ class TodoItem extends React.Component {
     static propTypes = {
 		id: PropTypes.number.isRequired,
 		title: PropTypes.string.isRequired,
-		content: PropTypes.string.isRequired,
 		deadline: PropTypes.number.isRequired,
-		importance: PropTypes.number.isRequired,
 		starID: PropTypes.number.isRequired,
 		ts: PropTypes.number.isRequired,
         tooltipOpen: PropTypes.bool.isRequired,
@@ -34,21 +32,18 @@ class TodoItem extends React.Component {
     }
 
     render() {
-        const {title, content, deadline, importance, starID, ts, doneTs, tooltipOpen} = this.props;
+        const {title, deadline, starID, ts, doneTs, tooltipOpen} = this.props;
 
         return (
 			<View>
 				<CardItem onPress={this.handleAccomplish}>
 					<CheckBox checked={!!doneTs} />
 				</CardItem>
-				<CardItem header onPress={this.handleTooltipToggle}>
-					<Text>{title}</Text>
-				</CardItem>
 	            <CardItem onPress={this.handleTooltipToggle} style={StyleSheet.flatten(styles.cardItem)}>
 	                <View style={styles.todo}>
 	                    <View style={styles.wrap}>
 	                        <Text style={styles.ts}>{moment(deadline * 1000).calendar()}</Text>
-	                        <Text style={styles.text}>{content}</Text>
+	                        <Text style={styles.text}>{title}</Text>
 	                    </View>
 	                </View>
 	                {tooltipOpen &&
@@ -71,7 +66,7 @@ class TodoItem extends React.Component {
 	}
 
 	handleEdit() {
-		this.props.navigate("EditScreen", {id: this.props.id});
+		this.props.navigation.navigate("EditScreen", {id: this.props.id});
 	}
 
 	handleDelete() {
