@@ -33,6 +33,9 @@ class TodoItem extends React.Component {
         super(props);
 
         this.handleTooltipToggle = this.handleTooltipToggle.bind(this);
+		this.handleAccomplish = this.handleAccomplish.bind(this);
+		this.handleEdit = this.handleEdit.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
     }
 
     render() {
