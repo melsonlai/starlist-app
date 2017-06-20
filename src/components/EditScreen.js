@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {View, DatePickerAndroid, TimePickerAndroid} from 'react-native';
 
-import {connect} from 'react-redux';
-import {createTodo, setTitleValue, setTitleDanger, setDueDate, setDueTime, setFullDay, clearTodoForm} from '../states/todo-actions';
-import {setToast} from '../states/toast';
-
 import {Container, Header, Content, Title, Icon, Button, Item, Label, Input, Form, Switch, Left, Body, Right, Text} from 'native-base';
 import {Col, Grid} from 'react-native-easy-grid';
+
+import {connect} from 'react-redux';
+import {createTodo, setTitleValue, setTitleDanger, setDueDate, setDeadlineDanger, setDueTime, setFullDay, clearTodoForm} from '../states/todo-actions';
+import {setToast} from '../states/toast';
+
+import moment from "moment";
 import appColors from '../styles/colors';
 
 class EditScreen extends React.Component {
@@ -16,7 +18,8 @@ class EditScreen extends React.Component {
         titleValue: PropTypes.string.isRequired,
         titleDanger: PropTypes.bool.isRequired,
 		dueDate: PropTypes.instanceOf(Date),
-		fullDay: PropTypes.bool.isRequired
+		fullDay: PropTypes.bool.isRequired,
+		deadlineDanger: PropTypes.bool.isRequired
     };
 
     constructor(props) {
@@ -31,7 +34,7 @@ class EditScreen extends React.Component {
     }
 
     render() {
-        const {titleValue, titleDanger, dueDate, dueTime, fullDay} = this.props;
+        const {titleValue, titleDanger, dueDate, deadlineDanger, dueTime, fullDay} = this.props;
         return (
             <Container>
                 <Header>
@@ -54,7 +57,7 @@ class EditScreen extends React.Component {
 						<Grid>
 							<Col>
 								<Form>
-		                            <Item floatingLabel style={styles.item}>
+		                            <Item floatingLabel error={deadlineDanger} style={styles.item}>
 		                                <Label>Due Date</Label>
 		                                <Input value={dueDate.toDateString()} onFocus={this.handleDatePicking} />
 		                            </Item>
@@ -67,7 +70,7 @@ class EditScreen extends React.Component {
 						</Grid>
 						{fullDay ||
 						<Form>
-							<Item floatingLabel style={styles.item}>
+							<Item floatingLabel error={deadlineDanger} style={styles.item}>
 								<Label>Due Time</Label>
 								<Input value={`${dueTime.hour < 10 ? "0" : ""}${dueTime.hour}:${dueTime.minute < 10 ? "0" : ""}${dueTime.minute}`} onFocus={this.handleTimePicking} />
 							</Item>
@@ -102,6 +105,7 @@ class EditScreen extends React.Component {
 			if (action !== DatePickerAndroid.dismissedAction) {
 				// Selected year, month (0-11), day
 				this.props.dispatch(setDueDate(new Date(year, month, day)));
+				this.props.dispatch(setDeadlineDanger(false));
 			}
 		} catch ({code, message}) {
 			console.warn('Cannot open date picker', message);
@@ -110,7 +114,7 @@ class EditScreen extends React.Component {
 
 	async handleTimePicking() {
 		try {
-			const {dueTime} = this.props;
+			const {dueTime, dispatch} = this.props;
 			const {action, hour, minute} = await TimePickerAndroid.open({
 				hour: dueTime.hour,
 				minute: dueTime.minute,
@@ -118,7 +122,8 @@ class EditScreen extends React.Component {
 			});
 			if (action !== TimePickerAndroid.dismissedAction) {
 				// Selected hour (0-23), minute (0-59)
-				this.props.dispatch(setDueTime({hour, minute}));
+				dispatch(setDueTime({hour, minute}));
+				dispatch(setDeadlineDanger(false));
 			}
 		} catch ({code, message}) {
 			console.warn('Cannot open time picker', message);
@@ -130,16 +135,18 @@ class EditScreen extends React.Component {
 	}
 
     handleCreatTodo() {// FIX
-        const {mood, inputValue, dispatch} = this.props;
+        const {titleValue, dueDate, dueTime, fullDay, dispatch} = this.props;
+		const deadline = fullDay ? (moment(dueDate).add(1, 'd')) : (moment(dueDate).add(dueTime.hour, 'h').add(dueTime.minute, 'm'));
         const {goBack} = this.props.navigation;
-        if (inputValue) {
-            dispatch(createPost(mood, inputValue)).then(() => {
-                dispatch(setToast('Posted.'));
-            });
-            goBack();
-        } else {
-            dispatch(inputDanger(true));
-        }
+
+		if (!titleValue) {
+			dispatch(setTitleDanger(true));
+		} else if (deadline.unix() < moment().unix()) {
+			dispatch(setDeadlineDanger(true));
+		} else {
+			dispatch(createTodo(titleValue, deadline));
+			goBack();
+		}
     }
 }
 

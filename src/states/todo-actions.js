@@ -92,14 +92,16 @@ export function listMoreTodos(searchText, start) {
     };
 };
 
-export function createTodo(title, data, isFullDay, time) {
+export function createTodo(title, deadline) {
     return (dispatch, getState) => {
         dispatch(startCreateTodo());
 
-        return createTodoFromApi(title, data, isFullDay, time).then(todo => {
+        return createTodoFromApi(title, deadline).then(todo => {
             dispatch(endCreateTodo(todo));
+			dispatch(clearTodoForm());
         }).catch(err => {
-            dispatch(endCreateTodo())
+            dispatch(endCreateTodo());
+			dispatch(clearTodoForm());
             console.error('Error creating todo', err);
         });
     };
@@ -125,6 +127,13 @@ export function setDueDate(dueDate) {
 	return {
 		type: "@TODO_FORM/SET_DUE_DATE",
 		dueDate
+	};
+}
+
+export function setDeadlineDanger(deadlineDanger) {
+	return {
+		type: "@TODO_FORM/SET_DEADLINE_DANGER",
+		deadlineDanger
 	};
 }
 

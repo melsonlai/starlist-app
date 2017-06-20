@@ -106,7 +106,8 @@ const initTodoFormState = {
 		hour: 0,
 		minute: 0
 	},
-	fullDay: false
+	fullDay: false,
+	deadlineDanger: false
 };
 
 export function todoForm(state = initTodoFormState, action) {
@@ -125,6 +126,11 @@ export function todoForm(state = initTodoFormState, action) {
 			return {
 				...state,
 				dueDate: action.dueDate
+			};
+		case "@TODO_FORM/SET_DEADLINE_DANGER":
+			return {
+				...state,
+				deadlineDanger: action.deadlineDanger
 			};
 		case "@TODO_FORM/SET_DUE_TIME":
 			return {
