@@ -24,3 +24,49 @@ export function todoItem(state = initTodoItemState, action) {
             return state;
     }
 }
+
+/* Todo List */
+
+const initTodoListState = {
+    listingTodos: false,
+    listingMoreTodos: undefined, // id of todo from which to start
+    todos: [],
+    hasMore: true
+};
+export function todoList(state = initTodoListState, action) {
+    switch (action.type) {
+        case "@TODO_LIST/START_LIST_TODOS":
+            return {
+                ...state,
+                listingTodos: true,
+                listingMoreTodos: undefined
+            };
+        case "@TODO_LIST/END_LIST_TODOS":
+            if (!action.todos)
+                return {
+                    ...state,
+                    listingTodos: false
+                };
+            return {
+                ...state,
+                listingTodos: false,
+                todos: action.todos,
+                hasMore: action.todos.length > 0
+            };
+        case "@TODO_LIST/START_LIST_MORE_TODOS":
+            return {
+                ...state,
+                listingMoreTodos: action.start
+            };
+        case "@TODO_LIST/END_LIST_MORE_TODOS":
+            if (!action.todos)
+                return state;
+            return {
+                ...state,
+                todos: [...state.todos, ...action.todos],
+                hasMore: action.todos.length > 0
+            };
+        default:
+            return state;
+    }
+}
