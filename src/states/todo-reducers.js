@@ -105,7 +105,8 @@ const initTodoFormState = {
 	dueTime: {
 		hour: 0,
 		minute: 0
-	}
+	},
+	fullDay: false
 };
 
 export function todoForm(state = initTodoFormState, action) {
@@ -129,6 +130,11 @@ export function todoForm(state = initTodoFormState, action) {
 			return {
 				...state,
 				dueTime: action.dueTime
+			};
+		case "@TODO_FORM/SET_FULL_DAY":
+			return {
+				...state,
+				fullDay: action.fullDay
 			};
 		case "@TODO_FORM/CLEAR_TODO_FORM":
 			return initTodoFormState;

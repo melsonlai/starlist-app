@@ -135,6 +135,13 @@ export function setDueTime(dueTime) {
 	};
 }
 
+export function setFullDay(fullDay) {
+	return {
+		type: "@TODO_FORM/SET_FULL_DAY",
+		fullDay
+	};
+}
+
 export function clearTodoForm() {
 	return {
 		type: "@TODO_FORM/CLEAR_TODO_FORM"

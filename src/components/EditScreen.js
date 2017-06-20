@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-	View,
-	DatePickerAndroid,
-	TimePickerAndroid
-} from 'react-native';
+import {View, DatePickerAndroid, TimePickerAndroid} from 'react-native';
 
 import {connect} from 'react-redux';
-import {createTodo, setTitleValue, setTitleDanger, setDueDate, setDueTime, clearTodoForm} from '../states/todo-actions';
+import {createTodo, setTitleValue, setTitleDanger, setDueDate, setDueTime, setFullDay, clearTodoForm} from '../states/todo-actions';
 import {setToast} from '../states/toast';
 
-import {Container, Header, Content, Title, Icon, Button, Item, Label, Input, Form, Switch, Left, Body, Right} from 'native-base';
+import {Container, Header, Content, Title, Icon, Button, Item, Label, Input, Form, Switch, Left, Body, Right, Text} from 'native-base';
+import {Col, Grid} from 'react-native-easy-grid';
 import appColors from '../styles/colors';
 
 class EditScreen extends React.Component {
@@ -18,7 +15,8 @@ class EditScreen extends React.Component {
         navigation: PropTypes.object.isRequired,
         titleValue: PropTypes.string.isRequired,
         titleDanger: PropTypes.bool.isRequired,
-		dueDate: PropTypes.instanceOf(Date)
+		dueDate: PropTypes.instanceOf(Date),
+		fullDay: PropTypes.bool.isRequired
     };
 
     constructor(props) {
@@ -29,10 +27,11 @@ class EditScreen extends React.Component {
         this.handleCreatTodo = this.handleCreatTodo.bind(this);
 		this.handleDatePicking = this.handleDatePicking.bind(this);
 		this.handleTimePicking = this.handleTimePicking.bind(this);
+		this.handleFullDaySwitch = this.handleFullDaySwitch.bind(this);
     }
 
     render() {
-        const {titleValue, titleDanger, dueDate, dueTime} = this.props;
+        const {titleValue, titleDanger, dueDate, dueTime, fullDay} = this.props;
         return (
             <Container>
                 <Header>
@@ -51,17 +50,29 @@ class EditScreen extends React.Component {
 								<Label>What's Next To Do?</Label>
 		                        <Input autoFocus maxLength={1024} value={titleValue} onChange={this.handleTitleChange} />
 		                    </Item>
-                            <Item floatingLabel style={styles.item}>
-                                <Label>Due Date</Label>
-                                <Input value={dueDate.toDateString()} onFocus={this.handleDatePicking}/>
-                            </Item>
+						</Form>
+						<Grid>
+							<Col>
+								<Form>
+		                            <Item floatingLabel style={styles.item}>
+		                                <Label>Due Date</Label>
+		                                <Input value={dueDate.toDateString()} onFocus={this.handleDatePicking} />
+		                            </Item>
+								</Form>
+							</Col>
+							<Col style={styles.fullDayButton}>
+								<Text>Full Day</Text>
+								<Switch value={fullDay} onValueChange={this.handleFullDaySwitch} />
+							</Col>
+						</Grid>
+						{fullDay ||
+						<Form>
 							<Item floatingLabel style={styles.item}>
 								<Label>Due Time</Label>
 								<Input value={`${dueTime.hour < 10 ? "0" : ""}${dueTime.hour}:${dueTime.minute < 10 ? "0" : ""}${dueTime.minute}`} onFocus={this.handleTimePicking} />
 							</Item>
                         </Form>
-
-                        <Switch value={false} />
+						}
                 </Content>
             </Container>
         );
@@ -114,6 +125,10 @@ class EditScreen extends React.Component {
 		}
 	}
 
+	handleFullDaySwitch(ticked) {
+		this.props.dispatch(setFullDay(ticked));
+	}
+
     handleCreatTodo() {// FIX
         const {mood, inputValue, dispatch} = this.props;
         const {goBack} = this.props.navigation;
@@ -138,7 +153,12 @@ const styles = {
     },
     input: {
         height: 100
-    }
+    },
+	fullDayButton: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center"
+	}
 };
 
 export default connect(state => ({
