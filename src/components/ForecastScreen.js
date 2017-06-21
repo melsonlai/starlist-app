@@ -39,7 +39,7 @@ class ForecastScreen extends React.Component {
         stopy: 50,
         viewHeight: 100,
         pan     : new Animated.ValueXY(),
-        introText: '000'
+        introText: '天狼'
     };
     constructor(props) {
         super(props);
@@ -98,10 +98,8 @@ class ForecastScreen extends React.Component {
         return (
             <View style={{flex: 1, backgroundColor: 'black'}}>
                 <View style={{height: 100, backgroundColor:'#2c3e50'}}>
-                    <Text>{this.state.stopx}</Text>
-                    <Text>{this.state.stopy}</Text>
-                    <Text>{this.state.tempx}</Text>
-                    <Text>{this.state.tempy}</Text>
+                    <Text>{"X: "+this.state.stopx+this.state.tempx}</Text>
+                    <Text>{"Y: "+this.state.stopy+this.state.tempy}</Text>
                     <Text>{this.state.introText}</Text>
                 </View>
 
