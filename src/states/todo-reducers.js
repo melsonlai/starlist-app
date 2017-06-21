@@ -113,20 +113,21 @@ export function todoList(state = initTodoListState, action) {
 			if (action.id !== undefined) {
 				const {id} = action;
 
-				let togglingTodoAccomplish = state.togglingTodoAccomplish;
+				let togglingTodoAccomplish = JSON.parse(JSON.stringify(state.togglingTodoAccomplish));
 				togglingTodoAccomplish[id] = false;
 
-				let newTodos = state.todos.map(t => {
-					if (t.id === id) {
-						if (t.doneTs !== null) t.doneTs = null;
-						else t.doneTs = moment().unix();
+				let todos = state.todos.map(t => {
+					let tmp = Object.assign({}, t);
+					if (tmp.id === id) {
+						if (tmp.doneTs !== null) tmp.doneTs = null;
+						else tmp.doneTs = moment().unix();
 					}
-					return t;
+					return tmp;
 				});
 				return {
 					...state,
-					todos: newTodos,
-					togglingTodoAccomplish
+					togglingTodoAccomplish,
+					todos
 				};
 			} else return state;
 		}
