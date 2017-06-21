@@ -14,22 +14,16 @@ export default class DrawerSideBar extends React.Component {
       const {navigate} = this.props;
       return (
         <Container style={styles.drawer}>
-            <Image source={require('../images/account-bg.jpg')} style={styles.header}>
-                <Thumbnail large source={require('../images/account.jpg')} />
+            <Image source={require('../images/moon_bg.jpg')} style={styles.header}>
+                <Text style={styles.text_Account}>Starlist</Text>
             </Image>
             <Button block transparent style={styles.item} onPress={() => navigate('Astrology')}>
                 <Icon name='image-filter-tilt-shift' style={styles.icon} />
                 <Text style={styles.text}>Astrology</Text>
-                <Badge primary style={styles.badge}>
-                    <NbText style={styles.badgeText}>1</NbText>
-                </Badge>
             </Button>
             <Button block transparent style={styles.item} onPress={() => navigate('Horoscope')}>
                 <Icon name='google-circles-extended' style={styles.icon} />
                 <Text style={styles.text}>Horoscope</Text>
-                <Badge primary style={styles.badge}>
-                    <NbText style={styles.badgeText}>2</NbText>
-                </Badge>
             </Button>
             <Button block transparent style={styles.item} onPress={() => navigate('Settings')}>
                 <Icon name='settings' style={styles.icon}
@@ -52,7 +46,7 @@ const styles = {
         height: 200,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#666',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         marginBottom: 16
     },
     item: {
@@ -67,5 +61,11 @@ const styles = {
         fontWeight: 'bold',
         flex: 1,
         marginHorizontal: 12
+    },
+    text_Account: {
+        color: '#FFFFFF',
+        fontSize: 40,
+        textAlign: 'center',
+        fontFamily: 'KaushanScript'
     }
 };
