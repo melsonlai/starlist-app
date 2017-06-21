@@ -14,7 +14,7 @@ import {setToast} from '../states/toast';
 import moment from "moment";
 import appColors from '../styles/colors';
 
-class MaterialHome extends React.Component {
+class SettingsScreen extends React.Component {
 
 
     static propTypes = {
@@ -93,4 +93,4 @@ const styles = {
 export default connect(state => ({
     ...state.todoForm,
 	todos: state.todoList.todos
-}))(MaterialHome);
+}))(SettingsScreen);

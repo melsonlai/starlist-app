@@ -31,19 +31,19 @@ export default class DrawerSideBar extends React.Component {
                     <NbText style={styles.badgeText}>2</NbText>
                 </Badge>
             </Button>
+            <Button block transparent style={styles.item} onPress={() => navigate('MaterialHome')}>
+                <Icon name='view-dashboard' style={styles.icon} />
+                <Text style={styles.text}>Playground</Text>
+            </Button>
+            <Button block transparent style={styles.item} onPress={() => navigate('Edit')}>
+                <Icon name='pencil' style={styles.icon} />
+                <Text style={styles.text}>Edit(Beta)</Text>
+            </Button>
             <Button block transparent style={styles.item} onPress={() => navigate('Settings')}>
                 <Icon name='settings' style={styles.icon}
                     onPress={() => {}} // TODO
                 />
                 <Text style={styles.text}>Settings</Text>
-            </Button>
-            <Button block transparent style={styles.item} onPress={() => navigate('MaterialHome')}>
-                <Icon name='view-dashboard' style={styles.icon} />
-                <Text style={styles.text}>Material_Home</Text>
-            </Button>
-            <Button block transparent style={styles.item} onPress={() => navigate('Edit')}>
-                <Icon name='pencil' style={styles.icon} />
-                <Text style={styles.text}>Edit</Text>
             </Button>
         </Container>
     );
