@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {View, TouchableOpacity} from 'react-native';
 
-import {Container, Header, Content, Title, Icon, Button, Item, Label, Input, Form, Switch, Left, Body, Right, Text} from 'native-base';
+import {Container, Header, Content, Title, Icon, Button, Switch, Left, Body, Right, Text} from 'native-base';
 import {Col, Grid} from 'react-native-easy-grid';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import {TextField} from 'react-native-material-textfield';
 
 import {connect} from 'react-redux';
 import {createTodo, setTitleValue, setTitleDanger, setDeadline, setDeadlineDanger, setFullDay, clearTodoForm, setDeadlinePickerVisible} from '../states/todo-actions';
 import {setToast} from '../states/toast';
-
-import { TextField } from 'react-native-material-textfield';
 
 import moment from "moment";
 import appColors from '../styles/colors';
@@ -86,10 +85,10 @@ class EditScreen extends React.Component {
 						<TextField
 							label="What's Next To Do?"
 							value={titleValue}
-
 							onChange={this.handleTitleChange}
 							autoFocus
 							maxLength={1024}
+							style={styles.item}
 						/>
 						<Grid style={styles.grid}>
 							<Col>
@@ -97,12 +96,20 @@ class EditScreen extends React.Component {
 									<TouchableOpacity onPress={this.showDeadlinePicker}>
 										<Text style={deadlineDanger ? {color: "red"} : {}}>{deadline.getTime() ? deadline.toLocaleString() : "Select Due Time"}</Text>
 									</TouchableOpacity>
-									<DateTimePicker isVisible={selectingDeadline} onConfirm={this.handleConfirmDeadline} onCancel={this.handleCancelSelectingDeadline} mode={fullDay ? "date" : "datetime"} />
+									<DateTimePicker
+										isVisible={selectingDeadline}
+										onConfirm={this.handleConfirmDeadline}
+										onCancel={this.handleCancelSelectingDeadline}
+										mode={fullDay ? "date" : "datetime"}
+									/>
 								</View>
 							</Col>
 							<Col style={styles.fullDayButton}>
 								<Text style={deadlineDanger ? {color: "red"} : {}}>Full Day</Text>
-								<Switch value={fullDay} onValueChange={this.handleFullDaySwitch} />
+								<Switch
+									value={fullDay}
+									onValueChange={this.handleFullDaySwitch}
+								/>
 							</Col>
 						</Grid>
                 </Content>
@@ -141,7 +148,7 @@ class EditScreen extends React.Component {
 		const {dispatch, deadline} = this.props;
 		dispatch(setFullDay(ticked));
 		dispatch(setDeadlineDanger(false));
-		if (ticked) dispatch(setDeadline(moment(deadline).startOf("day").toDate()));
+		if (ticked) dispatch(setDeadline(moment(deadline).endOf("day").toDate()));
 	}
 
     handleCreatTodo() {
