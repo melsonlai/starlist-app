@@ -33,6 +33,33 @@ class EditScreen extends React.Component {
 		this.handleFullDaySwitch = this.handleFullDaySwitch.bind(this);
     }
 
+	componentDidMount() {
+		const {params} = this.props.navigation.state;
+		const {dispatch, todos} = this.props;
+		if (params.id) {
+			let todo;
+			for (let t of todos) {
+				if (t.id === params.id) {
+					todo = t;
+					break;
+				}
+			}
+
+			dispatch(setTitleValue(todo.title));
+
+			let deadline = moment.unix(todo.deadline);
+			if (deadline.hour() === 0 && deadline.minute() === 0) {
+				deadline = deadline.substract(1, "days");
+				dispatch(setDueDate(new Date(deadline.year(), deadline.month(), deadline.date())));
+				dispatch(setFullDay(true));
+			} else {
+				dispatch(setDueDate(new Date(deadline.year(), deadline.month(), deadline.date())));
+				dispatch(setFullDay(false));
+				dispatch(setDueTime({deadline.hour(), deadline.minute()}));
+			}
+		}
+	}
+
     render() {
         const {titleValue, titleDanger, dueDate, deadlineDanger, dueTime, fullDay} = this.props;
         return (
@@ -134,7 +161,7 @@ class EditScreen extends React.Component {
 		this.props.dispatch(setFullDay(ticked));
 	}
 
-    handleCreatTodo() {// FIX
+    handleCreatTodo() {
         const {titleValue, dueDate, dueTime, fullDay, dispatch} = this.props;
 		const deadline = fullDay ? (moment(dueDate).add(1, 'd')) : (moment(dueDate).add(dueTime.hour, 'h').add(dueTime.minute, 'm'));
         const {goBack} = this.props.navigation;
@@ -169,5 +196,6 @@ const styles = {
 };
 
 export default connect(state => ({
-    ...state.todoForm
+    ...state.todoForm,
+	state.todoList.todos
 }))(EditScreen);
