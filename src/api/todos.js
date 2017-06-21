@@ -113,7 +113,7 @@ export function deleteTodo(id) {
 	return listTodos().then(todos => {
 		let rtn;
 
-		todos.filter(function(t) {
+		todos = todos.filter(function(t) {
 			if (t.id === id) {
 				rtn = t;
 				return false;

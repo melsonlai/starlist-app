@@ -30,7 +30,8 @@ const initTodoListState = {
     hasMore: true,
 	unaccomplishedOnly: false,
 	creatingTodo: false,
-	togglingTodoAccomplish: {}
+	togglingTodoAccomplish: {},
+	deletingTodo: {}
 };
 export function todoList(state = initTodoListState, action) {
     switch (action.type) {
@@ -96,7 +97,7 @@ export function todoList(state = initTodoListState, action) {
             };
 		}
 		case "@TODO_LIST/START_TOGGLE_TODO_ACCOMPLISH": {
-			let togglingTodoAccomplish = state.togglingTodoAccomplish;
+			let togglingTodoAccomplish = JSON.parse(JSON.stringify(state.togglingTodoAccomplish));
 			togglingTodoAccomplish[action.id] = true;
 			return {
 				...state,
@@ -111,7 +112,7 @@ export function todoList(state = initTodoListState, action) {
 				togglingTodoAccomplish[id] = false;
 
 				let todos = state.todos.map(t => {
-					let tmp = Object.assign({}, t);
+					let tmp = JSON.parse(JSON.stringify(t));
 					if (tmp.id === id) {
 						if (tmp.doneTs !== null) tmp.doneTs = null;
 						else tmp.doneTs = moment().unix();
@@ -124,6 +125,33 @@ export function todoList(state = initTodoListState, action) {
 					todos
 				};
 			} else return state;
+		}
+		case "@TODO_LIST/START_DELETE_TODO": {
+			let deletingTodo = JSON.parse(JSON.stringify(state.deletingTodo));
+			deletingTodo[action.id] = true;
+			return {
+				...state,
+				deletingTodo
+			};
+		}
+		case "@TODO_LIST/END_DELETE_TODO": {
+			if (action.id !== undefined) {
+				const {id} = action;
+
+				let deletingTodo = JSON.parse(JSON.stringify(state.deletingTodo));
+				deletingTodo[id] = false;
+
+				let todos = state.todos.filter(t => {
+					if (t.id === id) return false;
+					else return true;
+				});
+
+				return {
+					...state,
+					deletingTodo,
+					todos
+				};
+			}
 		}
         default:
             return state;

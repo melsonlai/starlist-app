@@ -1,7 +1,8 @@
 import {
 	listTodos as listTodosFromApi,
 	createTodo as createTodoFromApi,
-	toggleTodoAccomplish as toggleTodoAccomplishFromApi
+	toggleTodoAccomplish as toggleTodoAccomplishFromApi,
+	deleteTodo as deleteTodoFromApi
 } from "../api/todos.js";
 
 /*  Todo item */
@@ -75,6 +76,20 @@ function endToggleTodoAccomplish(id) {
 	};
 }
 
+function startDeleteTodo(id) {
+	return {
+		type: "@TODO_LIST/START_DELETE_TODO", 
+		id
+	};
+}
+
+function endDeleteTodo(id) {
+	return {
+		type: "@TODO_LIST/END_DELETE_TODO",
+		id
+	};
+}
+
 export function listTodos(searchText) {
     return (dispatch, getState) => {
         dispatch(startListTodos());
@@ -123,6 +138,19 @@ export function toggleTodoAccomplish(id) {
 			console.log("Error toggling todo accomplish", id, err);
 		});
 	};
+}
+
+export function deleteTodo(id) {
+	return (dispatch, getState) => {
+		dispatch(startDeleteTodo(id));
+
+		return deleteTodoFromApi(id).then(todo => {
+			dispatch(endDeleteTodo(todo.id));
+		}).catch(err => {
+			dispatch(endDeleteTodo());
+			console.log("Error deleting todo", id, err);
+		});
+	}
 }
 
 /*  Todo Form */

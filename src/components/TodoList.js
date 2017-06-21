@@ -9,7 +9,7 @@ import InfiniteScrollView from 'react-native-infinite-scroll-view';
 import TodoItem from './TodoItem';
 
 import {connect} from 'react-redux';
-import {listTodos, listMoreTodos, toggleTodoAccomplish} from '../states/todo-actions';
+import {listTodos, listMoreTodos, toggleTodoAccomplish, deleteTodo} from '../states/todo-actions';
 
 class TodoList extends React.Component {
     static propTypes = {
@@ -38,6 +38,7 @@ class TodoList extends React.Component {
         this.handleRefresh = this.handleRefresh.bind(this);
         this.handleLoadMore = this.handleLoadMore.bind(this);
 		this.handleToggleTodoAccomplish = this.handleToggleTodoAccomplish.bind(this);
+		this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
     }
 
     componentDidMount() {
@@ -67,7 +68,11 @@ class TodoList extends React.Component {
                 renderScrollComponent={props => <InfiniteScrollView {...props} />}
                 dataSource={this.state.dataSource}
                 renderRow={(t) => {
-                    return <TodoItem {...t} toggleTodoAccomplish={this.handleToggleTodoAccomplish} navigate={navigate}/>;
+                    return <TodoItem {...t}
+						toggleTodoAccomplish={this.handleToggleTodoAccomplish}
+						deleteTodo={this.handleDeleteTodo}
+						navigate={navigate}
+					/>;
                 }}
                 canLoadMore={() => {
                     if (listingTodos || !todos.length)
@@ -96,6 +101,10 @@ class TodoList extends React.Component {
 
 	handleToggleTodoAccomplish(id) {
 		this.props.dispatch(toggleTodoAccomplish(id));
+	}
+
+	handleDeleteTodo(id) {
+		this.props.dispatch(deleteTodo(id));
 	}
 }
 
