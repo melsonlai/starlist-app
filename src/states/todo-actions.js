@@ -159,7 +159,7 @@ export function setTitleValue(titleValue) {
     return {
         type: '@TODO_FORM/SET_TITLE_VALUE',
         titleValue
-    };Object
+	};/*Object*/
 };
 
 export function setTitleDanger(titleDanger) {

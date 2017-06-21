@@ -59,8 +59,8 @@ class TodayScreen extends React.Component {
                 titleTop={40}
                 renderHeaderContent={props => <WeatherDisplay {...props} />}
                 renderScroller={props => <TodoList scrollProps={props} navigate={navigate}/>}>
-				<ActionButton buttonColor='#03A9F4'>
-					<ActionButton.Item buttonColor='#03A9F4' title="New Todo" onPress={this.handleCreateTodo}>
+				<ActionButton buttonColor='#FF5722'>
+					<ActionButton.Item buttonColor='#FF7043' title="New Todo" onPress={this.handleCreateTodo}>
 						<Icon name='pencil' style={styles.actionButtonIcon} />
 					</ActionButton.Item>
 				</ActionButton>

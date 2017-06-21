@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     image: {
         width: 262.5,
@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
         left: 30,
         textShadowColor: 'rgba(0, 0, 0, 0.7)',
         textShadowOffset: {width: 1, height: 1},
-        textShadowRadius: 24
+        textShadowRadius: 24,
+        fontFamily :'Quicksand'
     },
     text_Date: {
         fontSize: 30,
@@ -47,9 +48,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         top: 100,
         right: 30,
-        textShadowColor: 'rgba(0, 0, 0, 0.5)',
+        textShadowColor: 'rgba(0, 0, 0, 0.7)',
         textShadowOffset: {width: 1, height: 1},
-        textShadowRadius: 24
+        textShadowRadius: 24,
+        fontFamily :'Quicksand'
     }
 });
 
