@@ -13,14 +13,6 @@ export function toggleTooltip(id) {
     };
 };
 
-export function setTooltipToggle(id, toggle) {
-    return {
-        type: '@TODO_ITEM/SET_TOOLTIP_TOGGLE',
-        id,
-        toggle
-    };
-};
-
 /* Todo List */
 
 function startListTodos(unaccomplishedOnly) {

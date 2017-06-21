@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, StyleSheet, Text, Platform} from 'react-native';
+import {View, StyleSheet, Text, Platform, TouchableWithoutFeedback} from 'react-native';
 
 import {connect} from 'react-redux';
 import {setToast} from '../states/toast';
@@ -55,10 +55,12 @@ class TodoItem extends React.Component {
 	                </View>
 	            </CardItem>
 				{tooltipOpen &&
-					<View style={styles.tooltip} onPress={this.handleTooltipToggle}>
-						<Icon name="edit" onPress={this.handleEdit} />
-						<Icon name="delete" onPress={this.handleDelete} />
-					</View>
+					<TouchableWithoutFeedback onPress={this.handleTooltipToggle}>
+						<View style={styles.tooltip}>
+							<Icon name="edit" onPress={this.handleEdit} style={styles.tooltipIcon} />
+							<Icon name="delete" onPress={this.handleDelete} style={styles.tooltipIcon} />
+						</View>
+					</TouchableWithoutFeedback>
 				}
 			</Card>
         );
