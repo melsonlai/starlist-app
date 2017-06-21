@@ -15,6 +15,8 @@ import {connect} from 'react-redux';
 
 import ActionButton from 'react-native-action-button';
 
+import { TextField } from 'react-native-material-textfield';
+
 const styles = StyleSheet.create({
   actionButtonIcon: {
     fontSize: 20,
@@ -29,6 +31,10 @@ class MaterialHome extends React.Component {
         searchText: PropTypes.string.isRequired
     };
 
+    state = {
+        phone: '',
+    };
+
     constructor(props) {
         super(props);
     }
@@ -36,6 +42,7 @@ class MaterialHome extends React.Component {
     render() {
         const {searchText} = this.props;
         const {navigate} = this.props.navigation;
+        let { phone } = this.state;
         return (
             <NavigationContainer navigate={navigate} title='Home'>
                 {/*<View style={{flex: 1, justifyContent: 'center'}}>
@@ -44,6 +51,11 @@ class MaterialHome extends React.Component {
                 <View style={{flex: 1, justifyContent: 'center'}}>
                     <Text style={{textAlign: 'center'}}>Searchtext: {searchText}</Text>
                 {/* Rest of the app comes ABOVE the action button component !*/}
+                    <TextField
+                        label='Phone number'
+                        value={phone}
+                        onChangeText={ (phone) => this.setState({ phone }) }
+                    />
                     <ActionButton buttonColor='#03A9F4'>
                         <ActionButton.Item buttonColor='#03A9F4' title="New" onPress={() => console.log("notes tapped!")}>
                             <Icon name='pencil'/>

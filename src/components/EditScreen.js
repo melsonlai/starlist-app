@@ -9,6 +9,8 @@ import {connect} from 'react-redux';
 import {createTodo, setTitleValue, setTitleDanger, setDueDate, setDeadlineDanger, setDueTime, setFullDay, clearTodoForm} from '../states/todo-actions';
 import {setToast} from '../states/toast';
 
+import { TextField } from 'react-native-material-textfield';
+
 import moment from "moment";
 import appColors from '../styles/colors';
 
@@ -79,12 +81,20 @@ class EditScreen extends React.Component {
                     </Button></Right>
                 </Header>
                 <Content style={styles.content}>
-                        <Form>
+                        {/*<Form>
 							<Item floatingLabel error={titleDanger} style={styles.item}>
 								<Label>What's Next To Do?</Label>
 		                        <Input autoFocus maxLength={1024} value={titleValue} onChange={this.handleTitleChange} />
 		                    </Item>
-						</Form>
+						</Form>*/}
+						<TextField
+							label="What's Next To Do?"
+							value={titleValue}
+							
+							onChange={this.handleTitleChange}
+							autoFocus
+							maxLength={1024}
+						/>
 						<Grid>
 							<Col>
 								<Form>
