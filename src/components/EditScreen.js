@@ -33,10 +33,14 @@ class EditScreen extends React.Component {
 		this.handleFullDaySwitch = this.handleFullDaySwitch.bind(this);
     }
 
+	componentWillMount() {
+		this.props.dispatch(clearTodoForm());
+	}
+
 	componentDidMount() {
 		const {params} = this.props.navigation.state;
 		const {dispatch, todos} = this.props;
-		if (params.id) {
+		if (params && params.id) {
 			let todo;
 			for (let t of todos) {
 				if (t.id === params.id) {
@@ -55,7 +59,7 @@ class EditScreen extends React.Component {
 			} else {
 				dispatch(setDueDate(new Date(deadline.year(), deadline.month(), deadline.date())));
 				dispatch(setFullDay(false));
-				dispatch(setDueTime({deadline.hour(), deadline.minute()}));
+				dispatch(setDueTime({hour: deadline.hour(), minute: deadline.minute()}));
 			}
 		}
 	}
@@ -110,7 +114,6 @@ class EditScreen extends React.Component {
 
     handleGoBack() {
 		this.props.navigation.goBack();
-		this.props.dispatch(clearTodoForm());
     }
 
     handleTitleChange(e) {
@@ -197,5 +200,5 @@ const styles = {
 
 export default connect(state => ({
     ...state.todoForm,
-	state.todoList.todos
+	todos: state.todoList.todos
 }))(EditScreen);

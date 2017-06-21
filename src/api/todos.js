@@ -79,7 +79,7 @@ export function createTodo(title, deadline) {
 }
 
 export function toggleAccomplishTodo(id) {
-	return listTodos(start = id).then(todos => {
+	return listTodos().then(todos => {
 		let rtn;
 
 		for(let t of todos) {

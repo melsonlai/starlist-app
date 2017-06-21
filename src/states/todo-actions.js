@@ -98,10 +98,8 @@ export function createTodo(title, deadline) {
 
         return createTodoFromApi(title, deadline).then(todo => {
             dispatch(endCreateTodo(todo));
-			dispatch(clearTodoForm());
         }).catch(err => {
             dispatch(endCreateTodo());
-			dispatch(clearTodoForm());
             console.error('Error creating todo', err);
         });
     };
