@@ -20,13 +20,15 @@ import PostFormScreen from './components/PostFormScreen';
 import ForecastScreen from './components/ForecastScreen';
 import MaterialHome from './components/MaterialHome';
 import EditScreen from './components/EditScreen';
+import SettingsScreen from './components/SettingsScreen';
 
 const AppNavigator = StackNavigator({
     Astrology: {screen: TodayScreen},
     Horoscope: {screen: ForecastScreen},
     PostForm: {screen: PostFormScreen},
     MaterialHome: {screen: MaterialHome},
-    Edit: {screen: EditScreen}
+    Edit: {screen: EditScreen},
+    Settings: {screen: SettingsScreen}
 }, {
     headerMode: 'none'
 });
