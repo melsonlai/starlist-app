@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {StatusBar, StyleSheet, Text, View, Platform, Animated} from 'react-native';
+import {StatusBar, StyleSheet, Text, View, Platform, Animated, ScrollView} from 'react-native';
 
 import {Container, Header, Button, Icon, Drawer} from 'native-base';
 import color from 'color';
