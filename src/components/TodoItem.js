@@ -7,12 +7,10 @@ import {setToast} from '../states/toast';
 import {toggleTooltip} from "../states/todo-actions";
 
 import moment from 'moment';
-import {CardItem, CheckBox} from 'native-base';
+import {Card, CardItem, CheckBox} from 'native-base';
 import appColors from '../styles/colors';
 import appMetrics from '../styles/metrics';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-import {toggleAccomplishTodo, deleteTodo} from "../api/todos";
 
 class TodoItem extends React.Component {
     static propTypes = {
@@ -26,7 +24,9 @@ class TodoItem extends React.Component {
 			PropTypes.object
 		]),
         tooltipOpen: PropTypes.bool.isRequired,
-        dispatch: PropTypes.func.isRequired
+        dispatch: PropTypes.func.isRequired,
+		toggleTodoAccomplish: PropTypes.func.isRequired,
+		deleteTodo: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -42,25 +42,25 @@ class TodoItem extends React.Component {
         const {title, deadline, starID, ts, doneTs, tooltipOpen} = this.props;
 
         return (
-			<View>
-				<CardItem onPress={this.handleAccomplish}>
+			<Card>
+				<CardItem button onPress={this.handleAccomplish}>
 					<CheckBox checked={!!doneTs} />
 				</CardItem>
-	            <CardItem onPress={this.handleTooltipToggle} style={StyleSheet.flatten(styles.cardItem)}>
+	            <CardItem button onPress={this.handleTooltipToggle} style={StyleSheet.flatten(styles.cardItem)}>
 	                <View style={styles.todo}>
 	                    <View style={styles.wrap}>
 	                        <Text style={styles.ts}>{moment(deadline * 1000).calendar()}</Text>
 	                        <Text style={styles.text}>{title}</Text>
 	                    </View>
 	                </View>
-	                {tooltipOpen &&
-	                    <View style={styles.tooltip} onPress={this.handleTooltipToggle}>
-							<Icon name="edit" onPress={this.handleEdit} />
-							<Icon name="delete" onPress={this.handleDelete} />
-	                    </View>
-	                }
 	            </CardItem>
-			</View>
+				{tooltipOpen &&
+					<View style={styles.tooltip} onPress={this.handleTooltipToggle}>
+						<Icon name="edit" onPress={this.handleEdit} />
+						<Icon name="delete" onPress={this.handleDelete} />
+					</View>
+				}
+			</Card>
         );
     }
 
@@ -69,15 +69,15 @@ class TodoItem extends React.Component {
     }
 
 	handleAccomplish() {
-		toggleAccomplishTodo(this.props.id);
+		this.props.toggleTodoAccomplish(this.props.id);
 	}
 
 	handleEdit() {
-		this.props.navigation.navigate("EditScreen", {id: this.props.id});
+		this.props.navigate("Edit", {id: this.props.id});
 	}
 
 	handleDelete() {
-		deleteTodo(this.props.id);
+		this.props.deleteTodo(this.props.id);
 	}
 }
 
@@ -129,4 +129,4 @@ const styles = StyleSheet.create({
 
 export default connect((state, ownProps) => ({
     tooltipOpen: state.todoItem.tooltipOpen[ownProps.id] ? true : false
-}))(PostItem);
+}))(TodoItem);

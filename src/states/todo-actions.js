@@ -1,6 +1,7 @@
 import {
 	listTodos as listTodosFromApi,
-	createTodo as createTodoFromApi
+	createTodo as createTodoFromApi,
+	toggleTodoAccomplish as toggleTodoAccomplishFromApi
 } from "../api/todos.js";
 
 /*  Todo item */
@@ -68,6 +69,20 @@ function endCreateTodo(todo) {
 	};
 }
 
+function startToggleTodoAccomplish(id) {
+	return {
+		type: "@TODO_LIST/START_TOGGLE_TODO_ACCOMPLISH",
+		id
+	};
+}
+
+function endToggleTodoAccomplish(id) {
+	return {
+		type: "@TODO_LIST/END_TOGGLE_TODO_ACCOMPLISH",
+		id
+	};
+}
+
 export function listTodos(searchText) {
     return (dispatch, getState) => {
         dispatch(startListTodos());
@@ -105,13 +120,26 @@ export function createTodo(title, deadline) {
     };
 };
 
+export function toggleTodoAccomplish(id) {
+	return (dispatch, getState) => {
+		dispatch(startToggleTodoAccomplish(id));
+
+		return toggleTodoAccomplishFromApi(id).then(todo => {
+			dispatch(endToggleTodoAccomplish(todo.id));
+		}).catch(err => {
+			dispatch(endToggleTodoAccomplish());
+			console.log("Error toggling todo accomplish", id, err);
+		});
+	};
+}
+
 /*  Todo Form */
 
 export function setTitleValue(titleValue) {
     return {
         type: '@TODO_FORM/SET_TITLE_VALUE',
         titleValue
-    };
+    };Object
 };
 
 export function setTitleDanger(titleDanger) {

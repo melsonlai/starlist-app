@@ -9,8 +9,6 @@ import InfiniteScrollView from 'react-native-infinite-scroll-view';
 
 import {Content, Icon} from 'native-base';
 import NavigationContainer from './NavigationContainer';
-
-
 import ActionButton from 'react-native-action-button';
 
 import {connect} from 'react-redux';

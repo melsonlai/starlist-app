@@ -3,15 +3,12 @@ import PropTypes from 'prop-types';
 import {View, TouchableWithoutFeedback, Image} from 'react-native';
 
 import {Container, Icon, Fab, Button, Toast} from 'native-base';
-import ActionButton from "react-native-action-button";
-
 import appColors from '../styles/colors';
 import appMetrics from '../styles/metrics';
 import {getMoodIcon} from '../utilities/weather.js';
 import ParallaxNavigationContainer from './ParallaxNavigationContainer';
 import PostList from './PostList';
 import PostItem from './PostItem';
-import TodoList from "./TodoList";
 import WeatherDisplay from './WeatherDisplay';
 
 import {connect} from 'react-redux';
@@ -35,7 +32,6 @@ class TodayScreen extends React.Component {
 
         this.handleFabClose = this.handleFabClose.bind(this);
         this.handleCreatePost = this.handleCreatePost.bind(this);
-		this.handleCreateTodo = this.handleCreateTodo.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -58,12 +54,55 @@ class TodayScreen extends React.Component {
                 titleLeft={80}
                 titleTop={40}
                 renderHeaderContent={props => <WeatherDisplay {...props} />}
-                renderScroller={props => <TodoList scrollProps={props} navigate={navigate}/>}>
-				<ActionButton buttonColor='#03A9F4'>
-					<ActionButton.Item buttonColor='#03A9F4' title="New Todo" onPress={this.handleCreateTodo}>
-						<Icon name='pencil' style={styles.actionButtonIcon} />
-					</ActionButton.Item>
-				</ActionButton>
+                renderScroller={props => <PostList scrollProps={props} />}>
+                {this.state.fabActive &&
+                    <TouchableWithoutFeedback onPress={this.handleFabClose}>
+                        <View style={styles.fabMask}/>
+                    </TouchableWithoutFeedback>
+                }
+                <Fab
+                    active={this.state.fabActive}
+                    containerStyle={styles.fabContainer}
+                    style={styles.fab}
+                    position="bottomRight"
+                    onPress={this.handleFabClose}>
+                    <Icon name='pencil' />
+                    <Button
+                        onPress={() => this.handleCreatePost('Windy')}
+                        style={styles.mood}>
+                        {getMoodIcon({group: 'Windy', style: styles.moodIcon})}
+                    </Button>
+                    <Button
+                        onPress={() => this.handleCreatePost('Snow')}
+                        style={styles.mood}>
+                        {getMoodIcon({group: 'Snow', style: styles.moodIcon})}
+                    </Button>
+                    <Button
+                        onPress={() => this.handleCreatePost('Thunder')}
+                        style={styles.mood}>
+                        {getMoodIcon({group: 'Thunder', style: styles.moodIcon})}
+                    </Button>
+                    <Button
+                        onPress={() => this.handleCreatePost('Rain')}
+                        style={styles.mood}>
+                        {getMoodIcon({group: 'Rain', style: styles.moodIcon})}
+                    </Button>
+                    <Button
+                        onPress={() => this.handleCreatePost('Drizzle')}
+                        style={styles.mood}>
+                        {getMoodIcon({group: 'Drizzle', style: styles.moodIcon})}
+                    </Button>
+                    <Button
+                        onPress={() => this.handleCreatePost('Clouds')}
+                        style={styles.mood}>
+                        {getMoodIcon({group: 'Clouds', style: styles.moodIcon})}
+                    </Button>
+                    <Button
+                        onPress={() => this.handleCreatePost('Clear')}
+                        style={styles.mood}>
+                        {getMoodIcon({group: 'Clear', style: styles.moodIcon})}
+                    </Button>
+                </Fab>
             </ParallaxNavigationContainer>
         );
     }
@@ -71,10 +110,6 @@ class TodayScreen extends React.Component {
     handleFabClose() {
         this.setState({fabActive: !this.state.fabActive});
     }
-
-	handleCreateTodo() {
-		this.props.navigation.navigate("Edit");
-	}
 
     handleCreatePost(mood) {
         this.handleFabClose();
@@ -103,12 +138,7 @@ const styles = {
     },
     moodIcon: {
         color: appColors.primaryLightText
-    },
-	actionButtonIcon: {
-		fontSize: 20,
-		height: 22,
-		color: 'white',
-	}
+    }
 };
 
 export default connect((state, ownProps) => ({

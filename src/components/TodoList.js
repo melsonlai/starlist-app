@@ -9,7 +9,7 @@ import InfiniteScrollView from 'react-native-infinite-scroll-view';
 import TodoItem from './TodoItem';
 
 import {connect} from 'react-redux';
-import {listTodos, listMoreTodos} from '../states/todo-actions';
+import {listTodos, listMoreTodos, toggleTodoAccomplish} from '../states/todo-actions';
 
 class TodoList extends React.Component {
     static propTypes = {
@@ -37,6 +37,7 @@ class TodoList extends React.Component {
 
         this.handleRefresh = this.handleRefresh.bind(this);
         this.handleLoadMore = this.handleLoadMore.bind(this);
+		this.handleToggleTodoAccomplish = this.handleToggleTodoAccomplish.bind(this);
     }
 
     componentDidMount() {
@@ -56,7 +57,7 @@ class TodoList extends React.Component {
     }
 
     render() {
-        const {listingTodos, hasMoreTodos, todos, scrollProps} = this.props;
+        const {listingTodos, hasMoreTodos, todos, scrollProps, navigate} = this.props;
         return (
             <ListView
                 refreshControl={
@@ -66,7 +67,7 @@ class TodoList extends React.Component {
                 renderScrollComponent={props => <InfiniteScrollView {...props} />}
                 dataSource={this.state.dataSource}
                 renderRow={(t) => {
-                    return <TodoItem {...t} />;
+                    return <TodoItem {...t} toggleTodoAccomplish={this.handleToggleTodoAccomplish} navigate={navigate}/>;
                 }}
                 canLoadMore={() => {
                     if (listingTodos || !todos.length)
@@ -92,6 +93,10 @@ class TodoList extends React.Component {
         if (listingMoreTodos !== start)
             dispatch(listMoreTodos(searchText, start));
     }
+
+	handleToggleTodoAccomplish(id) {
+		this.props.dispatch(toggleTodoAccomplish(id));
+	}
 }
 
 export default connect((state, ownProps) => ({

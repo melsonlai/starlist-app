@@ -44,7 +44,7 @@ class EditScreen extends React.Component {
 	componentDidMount() {
 		const {params} = this.props.navigation.state;
 		const {dispatch, todos} = this.props;
-		if (params && params.id) {
+		if (params && params.id !== undefined) {
 			let todo;
 			for (let t of todos) {
 				if (t.id === params.id) {
@@ -55,12 +55,12 @@ class EditScreen extends React.Component {
 
 			dispatch(setTitleValue(todo.title));
 
-			let deadline = moment.unix(todo.deadline);
-			if (deadline === deadline.endOf("day")) {
-				deadline = deadline.startOf("days");
+			if (moment.unix(todo.deadline).unix() === moment.unix(todo.deadline).endOf("day").unix()) {
+				const deadline = moment.unix(todo.deadline).startOf("day");
 				dispatch(setDeadline(deadline.toDate()));
 				dispatch(setFullDay(true));
 			} else {
+				const deadline = moment.unix(todo.deadline);
 				dispatch(setDeadline(deadline.toDate()));
 				dispatch(setFullDay(false));
 			}

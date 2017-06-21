@@ -78,7 +78,7 @@ export function createTodo(title, deadline) {
     });*/
 }
 
-export function toggleAccomplishTodo(id) {
+export function toggleTodoAccomplish(id) {
 	return listTodos().then(todos => {
 		let rtn;
 
