@@ -76,10 +76,12 @@ class TodoItem extends React.Component {
 
 	handleEdit() {
 		this.props.navigate("Edit", {id: this.props.id});
+		this.props.dispatch(toggleTooltip(this.props.id));
 	}
 
 	handleDelete() {
 		this.props.deleteTodo(this.props.id);
+		this.props.dispatch(toggleTooltip(this.props.id));
 	}
 }
 

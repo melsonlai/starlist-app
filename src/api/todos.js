@@ -78,6 +78,26 @@ export function createTodo(title, deadline) {
     });*/
 }
 
+export function editTodo(id, title, deadline) {
+	return listTodos().then(todos => {
+		let rtn;
+
+		let newTodos = todos.map(t => {
+			if (t.id === id) {
+				let tmp = JSON.parse(JSON.stringify(t));
+				tmp.title = title;
+				tmp.deadline = deadline.unix();
+				rtn = tmp;
+				return tmp;
+			} else return t;
+		});
+
+		AsyncStorage.setItem(todoKey, JSON.stringify(newTodos));
+
+		return rtn;
+	});
+}
+
 export function toggleTodoAccomplish(id) {
 	return listTodos().then(todos => {
 		let rtn;

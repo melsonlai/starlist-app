@@ -8,7 +8,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import {TextField} from 'react-native-material-textfield';
 
 import {connect} from 'react-redux';
-import {createTodo, setTitleValue, setTitleDanger, setDeadline, setDeadlineDanger, setFullDay, clearTodoForm, setDeadlinePickerVisible} from '../states/todo-actions';
+import {createTodo, setTitleValue, setTitleDanger, setDeadline, setDeadlineDanger, setFullDay, clearTodoForm, setDeadlinePickerVisible, editTodo} from '../states/todo-actions';
 import {setToast} from '../states/toast';
 
 import moment from "moment";
@@ -44,7 +44,7 @@ class EditScreen extends React.Component {
 	componentDidMount() {
 		const {params} = this.props.navigation.state;
 		const {dispatch, todos} = this.props;
-		if (params && params.id !== undefined) {
+		if (params !== undefined && params.id !== undefined) {
 			let todo;
 			for (let t of todos) {
 				if (t.id === params.id) {
@@ -54,6 +54,8 @@ class EditScreen extends React.Component {
 			}
 
 			dispatch(setTitleValue(todo.title));
+			dispatch(setTitleDanger(false));
+			dispatch(setDeadlineDanger(false));
 
 			if (moment.unix(todo.deadline).unix() === moment.unix(todo.deadline).endOf("day").unix()) {
 				const deadline = moment.unix(todo.deadline).startOf("day");
@@ -89,7 +91,7 @@ class EditScreen extends React.Component {
 							onChange={this.handleTitleChange}
 							autoFocus
 							maxLength={1024}
-							tintColor='#FF5722'							
+							tintColor='#FF5722'
 						/>
 					</View>
 					<Grid style={styles.grid}>
@@ -154,16 +156,18 @@ class EditScreen extends React.Component {
 	}
 
     handleCreatTodo() {
-        const {titleValue, deadline, fullDay, dispatch} = this.props;
+        const {titleValue, deadline, fullDay, dispatch, navigation} = this.props;
 		const finalDeadline = fullDay ? (moment(deadline).endOf("day")) : (moment(deadline));
-        const {goBack} = this.props.navigation;
 
 		if (!titleValue) {
 			dispatch(setTitleDanger(true));
 		} else if (finalDeadline.unix() < moment().unix()) {
 			dispatch(setDeadlineDanger(true));
 		} else {
-			dispatch(createTodo(titleValue, finalDeadline));
+			const {goBack} = navigation;
+			const {params} = navigation.state;
+			if (params !==undefined && params.id !== undefined) dispatch(editTodo(params.id, titleValue, finalDeadline));
+			else dispatch(createTodo(titleValue, finalDeadline));
 			goBack();
 		}
     }

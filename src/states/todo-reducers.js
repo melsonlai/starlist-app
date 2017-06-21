@@ -31,7 +31,8 @@ const initTodoListState = {
 	unaccomplishedOnly: false,
 	creatingTodo: false,
 	togglingTodoAccomplish: {},
-	deletingTodo: {}
+	deletingTodo: {},
+	editingTodo: {}
 };
 export function todoList(state = initTodoListState, action) {
     switch (action.type) {
@@ -112,12 +113,13 @@ export function todoList(state = initTodoListState, action) {
 				togglingTodoAccomplish[id] = false;
 
 				let todos = state.todos.map(t => {
-					let tmp = JSON.parse(JSON.stringify(t));
-					if (tmp.id === id) {
+					if (t.id === id) {
+						let tmp = JSON.parse(JSON.stringify(t));
 						if (tmp.doneTs !== null) tmp.doneTs = null;
 						else tmp.doneTs = moment().unix();
-					}
-					return tmp;
+						return tmp;
+					} else return t;
+
 				});
 				return {
 					...state,
@@ -151,7 +153,38 @@ export function todoList(state = initTodoListState, action) {
 					deletingTodo,
 					todos
 				};
-			}
+			} else return state;
+		}
+		case "@TODO_LIST/START_EDIT_TODO": {
+			const {id} = action;
+
+			let editingTodo = JSON.parse(JSON.stringify(state.editingTodo));
+			editingTodo[id] = true;
+
+			return {
+				...state,
+				editingTodo
+			};
+		}
+		case "@TODO_LIST/END_EDIT_TODO": {
+			if (action.todo !== undefined) {
+				const {todo} = action;
+
+				let editingTodo = JSON.parse(JSON.stringify(state.editingTodo));
+				editingTodo[todo.id] = false;
+
+				let todos = state.todos.map(t => {
+					if (t.id === todo.id) {
+						return todo;
+					} else return t;
+				});
+
+				return {
+					...state,
+					todos,
+					editingTodo
+				};
+			} else return state;
 		}
         default:
             return state;
