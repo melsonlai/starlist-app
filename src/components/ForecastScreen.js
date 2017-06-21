@@ -7,8 +7,11 @@ import {
 } from 'react-native';
 import InfiniteScrollView from 'react-native-infinite-scroll-view';
 
-import {Content} from 'native-base';
+import {Content, Icon} from 'native-base';
 import NavigationContainer from './NavigationContainer';
+
+
+import ActionButton from 'react-native-action-button';
 
 import {connect} from 'react-redux';
 
@@ -29,6 +32,11 @@ class ForecastScreen extends React.Component {
             <NavigationContainer navigate={navigate} title='Horoscope'>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                     <Text style={{textAlign: 'center'}}>Searchtext: {searchText}</Text>
+                    <ActionButton buttonColor='#03A9F4'>
+                        <ActionButton.Item buttonColor='#03A9F4' title="New" onPress={() => console.log("notes tapped!")}>
+                            <Icon name='pencil'/>
+                        </ActionButton.Item>
+                    </ActionButton>
                 </View>
             </NavigationContainer>
         );
