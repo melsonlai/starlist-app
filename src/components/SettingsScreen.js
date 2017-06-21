@@ -10,8 +10,6 @@ import {TextField} from 'react-native-material-textfield';
 import {connect} from 'react-redux';
 import {createTodo, setTitleValue, setTitleDanger, setDeadline, setDeadlineDanger, setFullDay, clearTodoForm, setDeadlinePickerVisible} from '../states/todo-actions';
 import {setToast} from '../states/toast';
-
-import moment from "moment";
 import appColors from '../styles/colors';
 
 class SettingsScreen extends React.Component {

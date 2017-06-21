@@ -133,7 +133,7 @@ export default class ParallaxNavigationContainer extends React.Component {
                                     }
                                 ]
                             }
-                        ]} source={require('../images/bg.jpg')}>
+                        ]} source={require('../images/star_bg.jpg')}>
                             <Animated.View style={[
                                 styles.headerContent, {
                                     transform: [

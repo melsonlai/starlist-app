@@ -18,7 +18,6 @@ import {StackNavigator, NavigationActions, addNavigationHelpers} from 'react-nav
 import TodayScreen from './components/TodayScreen';
 import PostFormScreen from './components/PostFormScreen';
 import ForecastScreen from './components/ForecastScreen';
-import MaterialHome from './components/MaterialHome';
 import EditScreen from './components/EditScreen';
 import SettingsScreen from './components/SettingsScreen';
 
@@ -26,7 +25,6 @@ const AppNavigator = StackNavigator({
     Astrology: {screen: TodayScreen},
     Horoscope: {screen: ForecastScreen},
     PostForm: {screen: PostFormScreen},
-    MaterialHome: {screen: MaterialHome},
     Edit: {screen: EditScreen},
     Settings: {screen: SettingsScreen}
 }, {
