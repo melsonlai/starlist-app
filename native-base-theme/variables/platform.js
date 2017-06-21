@@ -196,7 +196,7 @@ export default {
 
     // InputGroup
   inputFontSize: 17,
-  inputBorderColor: '#D9D5DC',
+  inputBorderColor: '#03A9F4',
   inputSuccessBorderColor: '#2b8339',
   inputErrorBorderColor: '#ed2f2f',
 
