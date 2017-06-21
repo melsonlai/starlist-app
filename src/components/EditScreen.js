@@ -82,36 +82,38 @@ class EditScreen extends React.Component {
                     </Button></Right>
                 </Header>
                 <Content style={styles.content}>
+					<View style={styles.item}>
 						<TextField
 							label="What's Next To Do?"
 							value={titleValue}
 							onChange={this.handleTitleChange}
 							autoFocus
 							maxLength={1024}
-							style={styles.item}
+							
 						/>
-						<Grid style={styles.grid}>
-							<Col>
-								<View>
-									<TouchableOpacity onPress={this.showDeadlinePicker}>
-										<Text style={deadlineDanger ? {color: "red"} : {}}>{deadline.getTime() ? deadline.toLocaleString() : "Select Due Time"}</Text>
-									</TouchableOpacity>
-									<DateTimePicker
-										isVisible={selectingDeadline}
-										onConfirm={this.handleConfirmDeadline}
-										onCancel={this.handleCancelSelectingDeadline}
-										mode={fullDay ? "date" : "datetime"}
-									/>
-								</View>
-							</Col>
-							<Col style={styles.fullDayButton}>
-								<Text style={deadlineDanger ? {color: "red"} : {}}>Full Day</Text>
-								<Switch
-									value={fullDay}
-									onValueChange={this.handleFullDaySwitch}
+					</View>
+					<Grid style={styles.grid}>
+						<Col>
+							<View>
+								<TouchableOpacity onPress={this.showDeadlinePicker}>
+									<Text style={deadlineDanger ? {color: "red"} : {}}>{deadline.getTime() ? deadline.toLocaleString() : "Select Due Time"}</Text>
+								</TouchableOpacity>
+								<DateTimePicker
+									isVisible={selectingDeadline}
+									onConfirm={this.handleConfirmDeadline}
+									onCancel={this.handleCancelSelectingDeadline}
+									mode={fullDay ? "date" : "datetime"}
 								/>
-							</Col>
-						</Grid>
+							</View>
+						</Col>
+						<Col style={styles.fullDayButton}>
+							<Text style={deadlineDanger ? {color: "red"} : {}}>Full Day</Text>
+							<Switch
+								value={fullDay}
+								onValueChange={this.handleFullDaySwitch}
+							/>
+						</Col>
+					</Grid>
                 </Content>
             </Container>
         );
