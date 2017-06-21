@@ -121,13 +121,6 @@ export function setTitleDanger(titleDanger) {
     };
 };
 
-export function setDueDate(dueDate) {
-	return {
-		type: "@TODO_FORM/SET_DUE_DATE",
-		dueDate
-	};
-}
-
 export function setDeadlineDanger(deadlineDanger) {
 	return {
 		type: "@TODO_FORM/SET_DEADLINE_DANGER",
@@ -135,10 +128,10 @@ export function setDeadlineDanger(deadlineDanger) {
 	};
 }
 
-export function setDueTime(dueTime) {
+export function setDeadline(deadline) {
 	return {
-		type: "@TODO_FORM/SET_DUE_TIME",
-		dueTime
+		type: "@TODO_FORM/SET_DEADLINE",
+		deadline
 	};
 }
 
@@ -152,5 +145,12 @@ export function setFullDay(fullDay) {
 export function clearTodoForm() {
 	return {
 		type: "@TODO_FORM/CLEAR_TODO_FORM"
+	};
+}
+
+export function setDeadlinePickerVisible(selectingDeadline) {
+	return {
+		type: "@TODO_FORM/SET_DEADLINE_PICKER_VISIBLE",
+		selectingDeadline
 	};
 }

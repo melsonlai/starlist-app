@@ -1,3 +1,5 @@
+import moment from "moment";
+
 /* Todo item */
 
 const initTodoItemState = {
@@ -101,11 +103,8 @@ export function todoList(state = initTodoListState, action) {
 const initTodoFormState = {
     titleValue: '',
     titleDanger: false,
-	dueDate: new Date(0),
-	dueTime: {
-		hour: 0,
-		minute: 0
-	},
+	deadline: new Date(0),
+	selectingDeadline: false,
 	fullDay: false,
 	deadlineDanger: false
 };
@@ -122,20 +121,15 @@ export function todoForm(state = initTodoFormState, action) {
                 ...state,
                 titleDanger: action.titleDanger
             };
-		case "@TODO_FORM/SET_DUE_DATE":
-			return {
-				...state,
-				dueDate: action.dueDate
-			};
 		case "@TODO_FORM/SET_DEADLINE_DANGER":
 			return {
 				...state,
 				deadlineDanger: action.deadlineDanger
 			};
-		case "@TODO_FORM/SET_DUE_TIME":
+		case "@TODO_FORM/SET_DEADLINE":
 			return {
 				...state,
-				dueTime: action.dueTime
+				deadline: action.deadline
 			};
 		case "@TODO_FORM/SET_FULL_DAY":
 			return {
@@ -144,6 +138,11 @@ export function todoForm(state = initTodoFormState, action) {
 			};
 		case "@TODO_FORM/CLEAR_TODO_FORM":
 			return initTodoFormState;
+		case "@TODO_FORM/SET_DEADLINE_PICKER_VISIBLE":
+			return {
+				...state,
+				selectingDeadline: action.selectingDeadline
+			};
         default:
             return state;
     }
