@@ -4,18 +4,19 @@ import {View, TouchableOpacity} from 'react-native';
 
 import {Container, Header, Content, Title, Icon, Button, Switch, Left, Body, Right, Text, List, ListItem} from 'native-base';
 import {Col, Grid} from 'react-native-easy-grid';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import {TextField} from 'react-native-material-textfield';
 
 import {connect} from 'react-redux';
 import {createTodo, setTitleValue, setTitleDanger, setDeadline, setDeadlineDanger, setFullDay, clearTodoForm, setDeadlinePickerVisible} from '../states/todo-actions';
 import {setToast} from '../states/toast';
 import appColors from '../styles/colors';
 
-export default class SettingsScreen extends React.Component {
+class AboutScreen extends React.Component {
 
 
     static propTypes = {
-        navigation: PropTypes.object.isRequired,
-        navigate: PropTypes.func.isRequired
+        navigation: PropTypes.object.isRequired
     };
 
     constructor(props) {
@@ -28,7 +29,6 @@ export default class SettingsScreen extends React.Component {
 	}
 
     render() {
-        const {navigate} = this.props;
         return (
             <Container>
                 <Header>
@@ -50,11 +50,7 @@ export default class SettingsScreen extends React.Component {
                             </Button>
                         </ListItem>
                         <ListItem>
-                            <Button 
-                            block 
-                            transparent
-                            onPress={() => navigate('About')}
-                            >
+                            <Button transparent>
                                 <Text>App Badge</Text>
                             </Button>
                         </ListItem>
@@ -91,3 +87,8 @@ const styles = {
         marginRight: 16
     }
 };
+
+export default connect(state => ({
+    ...state.todoForm,
+	todos: state.todoList.todos
+}))(AboutScreen);
