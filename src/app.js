@@ -11,12 +11,10 @@ import loggerMiddleware from 'redux-logger';
 import {Provider, connect} from 'react-redux';
 import {search} from './states/search';
 import {toast} from './states/toast';
-import {post, postForm, postItem} from './states/post-reducers';
 import {todoItem, todoList, todoForm} from "./states/todo-reducers";
 
 import {StackNavigator, NavigationActions, addNavigationHelpers} from 'react-navigation';
 import TodayScreen from './components/TodayScreen';
-import PostFormScreen from './components/PostFormScreen';
 import ForecastScreen from './components/ForecastScreen';
 import EditScreen from './components/EditScreen';
 import SettingsScreen from './components/SettingsScreen';
@@ -24,8 +22,7 @@ import AboutScreen from './components/AboutScreen';
 
 const AppNavigator = StackNavigator({
     Astrology: {screen: TodayScreen},
-    Horoscope: {screen: ForecastScreen},
-    PostForm: {screen: PostFormScreen},
+    Horoscope: {screen: ForecastScreen}, 
     Edit: {screen: EditScreen},
     Settings: {screen: SettingsScreen},
     About: {screen: AboutScreen}
@@ -74,7 +71,6 @@ const nav = (state = initialState, action) => {
 // Create Redux store
 const store = createStore(combineReducers({
     nav, search, toast,
-    post, postForm, postItem,
 	todoItem, todoList, todoForm
 }), compose(applyMiddleware(thunkMiddleware, loggerMiddleware)));
 

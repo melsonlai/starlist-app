@@ -48,7 +48,7 @@ class TodoList extends React.Component {
     componentWillReceiveProps(nextProps) {
         const {searchText, dispatch, todos} = this.props;
         if (searchText !== nextProps.searchText) {
-            dispatch(listPosts(nextProps.searchText));
+            dispatch(listTodos(nextProps.searchText));
         }
         if (todos !== nextProps.todos) {
             this.setState({
@@ -94,7 +94,7 @@ class TodoList extends React.Component {
 
     handleLoadMore() {
         const {listingMoreTodos, dispatch, todos, searchText} = this.props;
-        const start = todos[todos.length - 1].id;
+        const start = todos[todos.length - 1].deadline;
         if (listingMoreTodos !== start)
             dispatch(listMoreTodos(searchText, start));
     }

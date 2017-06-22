@@ -3,14 +3,12 @@ import moment from 'moment';
 import {AsyncStorage} from "react-native";
 
 const todoKey = 'todos';
-const todoBaseUrl = 'http://weathermood-10.ap-northeast-1.elasticbeanstalk.com/api';
+const todoBaseUrl = 'http://172.20.117.173:3000/api';
 
-AsyncStorage.getItem(todoKey).catch(() => {
-	AsyncStorage.setItem(todoKey, JSON.stringify([]));
-});
+const devUserID = "0f91e0db-76d0-4f1d-b9b3-7dc6869a3067";
 
 export function listTodos(unaccomplishedOnly = false, searchText = '', start) {
-	return AsyncStorage.getItem(todoKey).then(todosString => {
+/*	return AsyncStorage.getItem(todoKey).then(todosString => {
 		let todos = JSON.parse(todosString);
 
 		if (unaccomplishedOnly) {
@@ -28,28 +26,30 @@ export function listTodos(unaccomplishedOnly = false, searchText = '', start) {
 		}
 
 		return todos;
-	});
-/*	let url = `${todoBaseUrl}/${todoKey}`;
-	if (searchText)
-		url += `?searchText=${searchText}`;
-	if (unaccomplishedOnly) {
-		if (searchText) url += "&";
-		else url += "?";
-		url += "unaccomplishedOnly=1";
-	}
+	});*/
+	let url = `${todoBaseUrl}/${todoKey}/${devUserID}`;
+	let arg = [];
+	if (searchText) arg.push(`searchText=${searchText}`);
+	if (unaccomplishedOnly) arg.push("unaccomplishedOnly=1");
+	if (start) arg.push(`start=${start}`);
+	if (arg.length) url += ("?" + arg.join("&"));
 
 	console.log(`Making GET request to: ${url}`);
 
-	return axios.get(url).then(function(res) {
+	return fetch(url, {
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).then(res => {
 		if (res.status !== 200)
 			throw new Error(`Unexpected response code: ${res.status}`);
 
-		return res.data;
-	});*/
+		return res.json();
+	});
 }
 
 export function createTodo(title, deadline) {
-	return listTodos().then(todos => {
+/*	return listTodos().then(todos => {
 		const newTodo = {
 			id: todos.length,
 			title: title,
@@ -62,24 +62,33 @@ export function createTodo(title, deadline) {
 		AsyncStorage.setItem(todoKey, JSON.stringify(todos));
 
 		return newTodo;
-	});
-/*	let url = `${todoBaseUrl}/${todoKey}`;
+	});*/
+	let url = `${todoBaseUrl}/${todoKey}/${devUserID}`;
 
     console.log(`Making POST request to: ${url}`);
 
-    return axios.post(url, {
-        mood,
-        text
-    }).then(function(res) {
+    return fetch(url, {
+		method: "POST",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			title,
+			content: "1",
+			deadline: deadline.unix(),
+			importance: 1
+		})
+    }).then(res => {
         if (res.status !== 200)
             throw new Error(`Unexpected response code: ${res.status}`);
 
-        return res.data;
-    });*/
+        return res.json();
+    });
 }
 
 export function editTodo(id, title, deadline) {
-	return listTodos().then(todos => {
+/*	return listTodos().then(todos => {
 		let rtn;
 
 		let newTodos = todos.map(t => {
@@ -95,11 +104,33 @@ export function editTodo(id, title, deadline) {
 		AsyncStorage.setItem(todoKey, JSON.stringify(newTodos));
 
 		return rtn;
+	});*/
+	let url = `${todoBaseUrl}/${todoKey}/${devUserID}/${id}`;
+
+    console.log(`Making PUT request to: ${url}`);
+
+	return fetch(url, {
+		method: "PUT",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			title,
+			content: "1",
+			deadline: deadline.unix(),
+			importance: 1
+		})
+	}).then(res => {
+		if (res.status !== 200)
+            throw new Error(`Unexpected response code: ${res.status}`);
+
+        return res.json();
 	});
 }
 
-export function toggleTodoAccomplish(id) {
-	return listTodos().then(todos => {
+export function toggleTodoAccomplish(id, accomplish) {
+/*	return listTodos().then(todos => {
 		let rtn;
 
 		for(let t of todos) {
@@ -116,21 +147,26 @@ export function toggleTodoAccomplish(id) {
 		AsyncStorage.setItem(todoKey, JSON.stringify(todos));
 
 		return rtn;
-	});
-/*	let url = `${todoBaseUrl}/${todoKey}/${id}`;
+	});*/
+	let url = `${todoBaseUrl}/${todoKey}/${devUserID}/${id}?accomplish=${accomplish ? "1" : "0"}`;
 
-    console.log(`Making POST request to: ${url}`);
+    console.log(`Making PUT request to: ${url}`);
 
-    return axios.post(url).then(function(res) {
+    return fetch(url, {
+		method: "PUT",
+		headers: {
+			'Accept': 'application/json'
+		}
+	}).then(res => {
         if (res.status !== 200)
             throw new Error(`Unexpected response code: ${res.status}`);
 
-        return res.data;
-    });*/
+        return res.json();
+    });
 }
 
 export function deleteTodo(id) {
-	return listTodos().then(todos => {
+/*	return listTodos().then(todos => {
 		let rtn;
 
 		todos = todos.filter(function(t) {
@@ -142,5 +178,20 @@ export function deleteTodo(id) {
 		AsyncStorage.setItem(todoKey, JSON.stringify(todos));
 
 		return rtn;
+	});*/
+	let url = `${todoBaseUrl}/${todoKey}/${devUserID}/${id}`;
+
+	console.log(`Making DELETE request to: ${url}`);
+
+	return fetch(url, {
+		method: "DELETE",
+		headers: {
+			'Accept': 'application/json'
+		}
+	}).then(res => {
+		if (res.status !== 200)
+			throw new Error(`Unexpected response code: ${res.status}`);
+
+		return res.json();
 	});
 }
