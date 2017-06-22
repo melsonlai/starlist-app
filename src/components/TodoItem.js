@@ -52,59 +52,55 @@ class TodoItem extends React.Component {
         const {title, deadline, starID, ts, doneTs, tooltipOpen} = this.props;
 
         return (
-            <Container>
-                <Content>
-			        <Card>
-
-                        <CardItem button onPress={this.handleAccomplish}>
-                            <CheckBox checked={!!doneTs} />
-                        </CardItem>
-                        <CardItem button onPress={()=> ActionSheet.show(
-                            {
-                                options: BUTTONS,
-                                cancelButtonIndex: CANCEL_INDEX,
-                                destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                                title: 'What do you want to do with this To Do??'
-                            },
-                            (buttonIndex) => {
-                                if (buttonIndex == 0)
-                                    this.handleEdit();
-                                else if (buttonIndex == 1)
-                                    this.handleDelete();
-                                else if (buttonIndex == 2)
-                                    this.handleAccomplish();
-                            },
-                            )} style={StyleSheet.flatten(styles.cardItem)}>
-                            <View style={styles.todo}>
-                                <View style={styles.wrap}>
-                                    <Text style={styles.ts}>{moment(deadline * 1000).calendar()}</Text>
-                                    <Text style={styles.text}>{title}</Text>
-                                </View>
+            <Content>
+		        <Card>
+                    <CardItem button onPress={this.handleAccomplish}>
+                        <CheckBox checked={!!doneTs} />
+                    </CardItem>
+                    <CardItem button onPress={()=> ActionSheet.show(
+                        {
+                            options: BUTTONS,
+                            cancelButtonIndex: CANCEL_INDEX,
+                            destructiveButtonIndex: DESTRUCTIVE_INDEX,
+                            title: 'What do you want to do with this To Do??'
+                        },
+                        (buttonIndex) => {
+                            if (buttonIndex == 0)
+                                this.handleEdit();
+                            else if (buttonIndex == 1)
+                                this.handleDelete();
+                            else if (buttonIndex == 2)
+                                this.handleAccomplish();
+                        },
+                        )} style={StyleSheet.flatten(styles.cardItem)}>
+                        <View style={styles.todo}>
+                            <View style={styles.wrap}>
+                                <Text style={styles.ts}>{moment(deadline * 1000).calendar()}</Text>
+                                <Text style={styles.text}>{title}</Text>
                             </View>
-                        </CardItem>
-
-				{/*<CardItem button onPress={this.handleAccomplish}>
-					<CheckBox checked={!!doneTs} />
-				</CardItem>
-	            <CardItem button onPress={this.handleTooltipToggle} style={StyleSheet.flatten(styles.cardItem)}>
-	                <View style={styles.todo}>
-	                    <View style={styles.wrap}>
-	                        <Text style={styles.ts}>{moment(deadline * 1000).calendar()}</Text>
-	                        <Text style={styles.text}>{title}</Text>
-	                    </View>
-	                </View>
-	            </CardItem>
-				{tooltipOpen &&
-					<TouchableWithoutFeedback onPress={this.handleTooltipToggle}>
-						<View style={styles.tooltip}>
-							<Icon name="edit" onPress={this.handleEdit} style={styles.tooltipIcon} />
-							<Icon name="delete" onPress={this.handleDelete} style={styles.tooltipIcon} />
-						</View>
-					</TouchableWithoutFeedback>
-                }*/}
-			        </Card>
-                </Content>
-         </Container>
+                        </View>
+                    </CardItem>
+					{/*<CardItem button onPress={this.handleAccomplish}>
+						<CheckBox checked={!!doneTs} />
+					</CardItem>
+		            <CardItem button onPress={this.handleTooltipToggle} style={StyleSheet.flatten(styles.cardItem)}>
+		                <View style={styles.todo}>
+		                    <View style={styles.wrap}>
+		                        <Text style={styles.ts}>{moment(deadline * 1000).calendar()}</Text>
+		                        <Text style={styles.text}>{title}</Text>
+		                    </View>
+		                </View>
+		            </CardItem>
+					{tooltipOpen &&
+						<TouchableWithoutFeedback onPress={this.handleTooltipToggle}>
+							<View style={styles.tooltip}>
+								<Icon name="edit" onPress={this.handleEdit} style={styles.tooltipIcon} />
+								<Icon name="delete" onPress={this.handleDelete} style={styles.tooltipIcon} />
+							</View>
+						</TouchableWithoutFeedback>
+	                }*/}
+		        </Card>
+            </Content>
         );
     }
 
