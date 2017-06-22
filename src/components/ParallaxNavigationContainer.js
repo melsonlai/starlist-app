@@ -9,6 +9,8 @@ import DrawerSideBar from './DrawerSideBar';
 import appColors from '../styles/colors';
 import appMetrics from '../styles/metrics';
 
+
+
 export default class ParallaxNavigationContainer extends React.Component {
     static propTypes = {
         navigate: PropTypes.func.isRequired,
@@ -86,6 +88,15 @@ export default class ParallaxNavigationContainer extends React.Component {
             extrapolate: 'clamp'
         });
 
+        var randomImages = [
+            require('../images/1.jpg'),
+            require('../images/2.jpg'),
+            require('../images/3.jpg'),
+            require('../images/4.jpg'),
+            require('../images/5.jpg'),
+            require('../images/6.jpg')
+        ];
+
         return (
             <Drawer
                 ref={(el) => this.drawer = el}
@@ -133,7 +144,7 @@ export default class ParallaxNavigationContainer extends React.Component {
                                     }
                                 ]
                             }
-                        ]} source={require('../images/star_bg.jpg')}>
+                        ]} source={randomImages[(Math.floor(Math.random()*1000))%5]}>
                             <Animated.View style={[
                                 styles.headerContent, {
                                     transform: [

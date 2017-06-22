@@ -5,13 +5,13 @@
         <!-- Customize your theme here. -->
         <item name="android:datePickerDialogTheme">@style/Dialog.Theme</item>
         <item name="android:timePickerDialogTheme">@style/Dialog.Theme</item>
-        <item name="colorPrimary">#00BCD4</item>
-        <item name="colorPrimaryDark">#0097A7</item>
-        <item name="colorAccent">#FF5722</item> <!-- this makes the trick -->
+        <item name="colorPrimary">#3F51B5</item>
+        <item name="colorPrimaryDark">#303F9F</item>
+        <item name="colorAccent">#03A9F4</item> <!-- this makes the trick -->
     </style>
 
 	<style name="Dialog.Theme" parent="Theme.AppCompat.Light.Dialog">
-	    <item name="colorAccent">#FF5722</item>
+	    <item name="colorAccent">#03A9F4</item>
 	    <item name="android:textColorPrimary">#212121</item>
  	</style>
 </resources>

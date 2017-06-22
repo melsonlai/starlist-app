@@ -15,7 +15,6 @@ export default class SettingsScreen extends React.Component {
 
     static propTypes = {
         navigation: PropTypes.object.isRequired,
-        navigate: PropTypes.func.isRequired
     };
 
     constructor(props) {
@@ -50,10 +49,8 @@ export default class SettingsScreen extends React.Component {
                             </Button>
                         </ListItem>
                         <ListItem>
-                            <Button 
-                            block 
+                            <Button
                             transparent
-                            onPress={() => navigate('About')}
                             >
                                 <Text>App Badge</Text>
                             </Button>

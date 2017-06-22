@@ -28,7 +28,7 @@ const AppNavigator = StackNavigator({
     PostForm: {screen: PostFormScreen},
     Edit: {screen: EditScreen},
     Settings: {screen: SettingsScreen},
-    AboutScreen: {screen: AboutScreen}
+    About: {screen: AboutScreen}
 }, {
     headerMode: 'none'
 });
