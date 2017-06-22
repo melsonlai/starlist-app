@@ -7,10 +7,19 @@ import {setToast} from '../states/toast';
 import {toggleTooltip} from "../states/todo-actions";
 
 import moment from 'moment';
-import {Card, CardItem, CheckBox} from 'native-base';
+import {Card, CardItem, CheckBox, ActionSheet, Container, Content} from 'native-base';
 import appColors from '../styles/colors';
 import appMetrics from '../styles/metrics';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+var BUTTONS = [
+  'Edit To Do',
+  'Delete Anyway',
+  'Cancel'
+];
+
+var DESTRUCTIVE_INDEX = 1;
+var CANCEL_INDEX = 2;
 
 class TodoItem extends React.Component {
     static propTypes = {
@@ -42,8 +51,36 @@ class TodoItem extends React.Component {
         const {title, deadline, starID, ts, doneTs, tooltipOpen} = this.props;
 
         return (
-			<Card>
-				<CardItem button onPress={this.handleAccomplish}>
+            <Container>
+                <Content>
+			        <Card>
+
+                        <CardItem button onPress={this.handleAccomplish}>
+                            <CheckBox checked={!!doneTs} />
+                        </CardItem>
+                        <CardItem button onPress={()=> ActionSheet.show(
+                            {
+                                options: BUTTONS,
+                                cancelButtonIndex: CANCEL_INDEX,
+                                destructiveButtonIndex: DESTRUCTIVE_INDEX,
+                                title: 'What do you want to do with this To Do??'
+                            },
+                            (buttonIndex) => {
+                                if(buttonIndex == 0)
+                                    this.handleEdit();
+                                if(buttonIndex == 1)
+                                    this.handleDelete();
+                            },
+                            )} style={StyleSheet.flatten(styles.cardItem)}>
+                            <View style={styles.todo}>
+                                <View style={styles.wrap}>
+                                    <Text style={styles.ts}>{moment(deadline * 1000).calendar()}</Text>
+                                    <Text style={styles.text}>{title}</Text>
+                                </View>
+                            </View>
+                        </CardItem>
+
+				{/*<CardItem button onPress={this.handleAccomplish}>
 					<CheckBox checked={!!doneTs} />
 				</CardItem>
 	            <CardItem button onPress={this.handleTooltipToggle} style={StyleSheet.flatten(styles.cardItem)}>
@@ -61,8 +98,10 @@ class TodoItem extends React.Component {
 							<Icon name="delete" onPress={this.handleDelete} style={styles.tooltipIcon} />
 						</View>
 					</TouchableWithoutFeedback>
-				}
-			</Card>
+                }*/}
+			        </Card>
+                </Content>
+         </Container>
         );
     }
 
