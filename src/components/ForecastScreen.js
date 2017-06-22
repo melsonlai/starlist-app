@@ -37,6 +37,9 @@ class ForecastScreen extends React.Component {
         tempy: 0,
         stopx: 50,
         stopy: 50,
+        scale: 1,
+        initDis: 1,
+        nowDis: 1,
         viewHeight: 100,
         pan     : new Animated.ValueXY(),
         introText: '天狼'
@@ -54,27 +57,41 @@ class ForecastScreen extends React.Component {
                 // what is happening!
 
                 // gestureState.d{x,y} will be set to zero now
+                if(gestureState.numberActiveTouches===2){
+                    this.setState({
+                        initDis: Math.sqrt(Math.pow(evt.nativeEvent.touches[0].pageX - evt.nativeEvent.touches[1].pageX, 2)+Math.pow(evt.nativeEvent.touches[0].pageY - evt.nativeEvent.touches[1].pageY, 2)),
+                        nowDis: Math.sqrt(Math.pow(evt.nativeEvent.touches[0].pageX - evt.nativeEvent.touches[1].pageX, 2)+Math.pow(evt.nativeEvent.touches[0].pageY - evt.nativeEvent.touches[1].pageY, 2))
+                    });
+                }
             },
             onPanResponderMove: (evt, gestureState) => {
                 // The most recent move distance is gestureState.move{X,Y}
 
                 // The accumulated gesture distance since becoming responder is
                 // gestureState.d{x,y}
+                if(gestureState.numberActiveTouches===2){
+                    this.setState({
+                        nowDis: Math.sqrt(Math.pow(evt.nativeEvent.touches[0].pageX - evt.nativeEvent.touches[1].pageX, 2)+Math.pow(evt.nativeEvent.touches[0].pageY - evt.nativeEvent.touches[1].pageY, 2))
+                    });
+                }
                 this.setState({
-                    tempx: gestureState.dx,
-                    tempy: gestureState.dy
+                    tempx: gestureState.dx/(this.state.scale*this.state.nowDis/this.state.initDis),
+                    tempy: gestureState.dy/(this.state.scale*this.state.nowDis/this.state.initDis)
                 });
             },
             onPanResponderTerminationRequest: (evt, gestureState) => true,
             onPanResponderRelease: (evt, gestureState) => {
                 // The user has released all touches while this view is the
                 // responder. This typically means a gesture has succeeded
-                this.setState({
-                    stopx: this.state.stopx+this.state.tempx,
-                    stopy: this.state.stopy+this.state.tempy,
+                this.setState(prevState=>({
+                    stopx: prevState.stopx+prevState.tempx,
+                    stopy: prevState.stopy+prevState.tempy,
                     tempx: 0,
-                    tempy: 0
-                });
+                    tempy: 0,
+                    scale: prevState.scale*prevState.nowDis/prevState.initDis,
+                    nowDis: 1,
+                    initDis: 1
+                }));
             },
             onPanResponderTerminate: (evt, gestureState) => {
                 // Another component has become the responder, so this gesture
@@ -100,7 +117,9 @@ class ForecastScreen extends React.Component {
                 <View style={{height: 100, backgroundColor:'#2c3e50'}}>
                     <Text>{"X: "+this.state.stopx+this.state.tempx}</Text>
                     <Text>{"Y: "+this.state.stopy+this.state.tempy}</Text>
-                    <Text>{this.state.introText}</Text>
+                    <Text>{this.state.initDis}</Text>
+                    <Text>{this.state.nowDis}</Text>
+                    <Text>{this.state.scale*this.state.nowDis/this.state.initDis}</Text>
                 </View>
 
                 {this.renderDraggable()}
@@ -125,7 +144,12 @@ class ForecastScreen extends React.Component {
                             />
                         </RadialGradient>
                     </Defs>
-                    <Circle cx={this.state.stopx+this.state.tempx} cy={this.state.stopy+this.state.tempy} r="50" fill="url(#grad)" onPress={() => alert('Press on Circle')}/>
+                    <Circle
+                        cx={this.state.stopx+this.state.tempx}
+                        cy={this.state.stopy+this.state.tempy} r="50"
+                        fill="url(#grad)"
+                        onPress={() => alert('Press on Circle')}
+                        scale={Math.sqrt(this.state.scale*this.state.nowDis/this.state.initDis)}/>
                 </Svg>
             </View>
         );
