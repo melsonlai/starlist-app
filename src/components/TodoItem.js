@@ -15,11 +15,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 var BUTTONS = [
   'Edit To Do',
   'Delete Anyway',
+  'Mark As Accomplishd',
   'Cancel'
 ];
 
 var DESTRUCTIVE_INDEX = 1;
-var CANCEL_INDEX = 2;
+var CANCEL_INDEX = 3;
 
 class TodoItem extends React.Component {
     static propTypes = {
@@ -66,10 +67,12 @@ class TodoItem extends React.Component {
                                 title: 'What do you want to do with this To Do??'
                             },
                             (buttonIndex) => {
-                                if(buttonIndex == 0)
+                                if(buttonIndex === 0)
                                     this.handleEdit();
-                                if(buttonIndex == 1)
+                                else if(buttonIndex === 1)
                                     this.handleDelete();
+                                else if(buttonIndex === 2)
+                                    this.handleAccomplish();
                             },
                             )} style={StyleSheet.flatten(styles.cardItem)}>
                             <View style={styles.todo}>
