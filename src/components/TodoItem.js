@@ -24,11 +24,11 @@ var CANCEL_INDEX = 3;
 
 class TodoItem extends React.Component {
     static propTypes = {
-		id: PropTypes.number.isRequired,
+		id: PropTypes.string.isRequired,
 		title: PropTypes.string.isRequired,
-		deadline: PropTypes.number.isRequired,
+		deadline: PropTypes.string.isRequired,
 		starID: PropTypes.number.isRequired,
-		ts: PropTypes.number.isRequired,
+		ts: PropTypes.string.isRequired,
 		doneTs: PropTypes.oneOfType([
 			PropTypes.number,
 			PropTypes.object
