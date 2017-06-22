@@ -38,14 +38,15 @@ class ForecastScreen extends React.Component {
         stopx: 50,
         stopy: 50,
         viewHeight: 100,
-        pan     : new Animated.ValueXY()
+        pan     : new Animated.ValueXY(),
+        introText: '天狼'
     };
     constructor(props) {
         super(props);
         
         this.panResponder = PanResponder.create({    //Step 2
-            onStartShouldSetPanResponder : () => true,
-            onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+            onStartShouldSetPanResponder : () => false,
+            onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
             onMoveShouldSetPanResponder: (evt, gestureState) => true,
             onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
             onPanResponderGrant: (evt, gestureState) => {
@@ -86,43 +87,20 @@ class ForecastScreen extends React.Component {
             },
         });
     }
-    /*render() {
-        const {searchText} = this.props;
-        const {navigate} = this.props.navigation;
-        return (
-            <NavigationContainer navigate={navigate} title='Horoscope'>
-                <ScrollView>
-                <View style={{flex: 1, backgroundColor: 'black'}} onLayout={(event) => this.measureView(event)}>
-                    <Svg height='100' width='100'>
-                        <Defs>
-                            <RadialGradient id="grad" cx={this.state.tempx} cy={this.state.tempy} fx={this.state.tempx} fy={this.state.tempy} gradientUnits="userSpaceOnUse">
-                                <Stop
-                                    offset="0"
-                                    stopColor="pink"
-                                    stopOpacity="1"
-                                />
-                                <Stop
-                                    offset="1"
-                                    stopColor="black"
-                                    stopOpacity="1"
-                                />
-                            </RadialGradient>
-                        </Defs>
-                        <Circle r="5" fill="url(#grad)"/>
-                    </Svg>
-                </View>
-                </ScrollView>
-            </NavigationContainer>
-        );
-    }*/
+    
+    clickStarHandler(){
+        this.setState({
+            introText: "Hello"
+        });
+    }
+    
     render(){
         return (
             <View style={{flex: 1, backgroundColor: 'black'}}>
                 <View style={{height: 100, backgroundColor:'#2c3e50'}}>
-                    <Text>{this.state.stopx}</Text>
-                    <Text>{this.state.stopy}</Text>
-                    <Text>{this.state.tempx}</Text>
-                    <Text>{this.state.tempy}</Text>
+                    <Text>{"X: "+this.state.stopx+this.state.tempx}</Text>
+                    <Text>{"Y: "+this.state.stopy+this.state.tempy}</Text>
+                    <Text>{this.state.introText}</Text>
                 </View>
 
                 {this.renderDraggable()}
@@ -147,7 +125,7 @@ class ForecastScreen extends React.Component {
                             />
                         </RadialGradient>
                     </Defs>
-                    <Circle cx={this.state.stopx+this.state.tempx} cy={this.state.stopy+this.state.tempy} r="50" fill="url(#grad)"/>
+                    <Circle cx={this.state.stopx+this.state.tempx} cy={this.state.stopy+this.state.tempy} r="50" fill="url(#grad)" onPress={() => alert('Press on Circle')}/>
                 </Svg>
             </View>
         );
