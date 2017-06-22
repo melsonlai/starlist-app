@@ -91,7 +91,7 @@ class EditScreen extends React.Component {
 							onChange={this.handleTitleChange}
 							autoFocus
 							maxLength={1024}
-							tintColor='#FF5722'
+							tintColor='#03A9F4'
 						/>
 					</View>
 					<Grid style={styles.grid}>
