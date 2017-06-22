@@ -67,11 +67,11 @@ class TodoItem extends React.Component {
                                 title: 'What do you want to do with this To Do??'
                             },
                             (buttonIndex) => {
-                                if(buttonIndex === 0)
+                                if (buttonIndex == 0)
                                     this.handleEdit();
-                                else if(buttonIndex === 1)
+                                else if (buttonIndex == 1)
                                     this.handleDelete();
-                                else if(buttonIndex === 2)
+                                else if (buttonIndex == 2)
                                     this.handleAccomplish();
                             },
                             )} style={StyleSheet.flatten(styles.cardItem)}>

@@ -3,7 +3,7 @@ import moment from 'moment';
 import {AsyncStorage} from "react-native";
 
 const todoKey = 'todos';
-const todoBaseUrl = 'http://192.168.0.100:3000/api';
+const todoBaseUrl = 'http://172.20.117.173:3000/api';
 
 const devUserID = "f560fb8c-8b33-41ea-b701-fe304f9a5305";
 
