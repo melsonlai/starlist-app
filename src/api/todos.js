@@ -3,7 +3,7 @@ import moment from 'moment';
 import {AsyncStorage} from "react-native";
 
 const todoKey = 'todos';
-const todoBaseUrl = 'http://localhost:3000/api';
+const todoBaseUrl = 'http://192.168.0.100:3000/api';
 
 const devUserID = "f560fb8c-8b33-41ea-b701-fe304f9a5305";
 
@@ -31,7 +31,7 @@ export function listTodos(unaccomplishedOnly = false, searchText = '', start) {
 	let arg = [];
 	if (searchText) arg.push(`searchText=${searchText}`);
 	if (unaccomplishedOnly) arg.push("unaccomplishedOnly=1");
-	arg.push(`start=${start}`);
+	if (start) arg.push(`start=${start}`);
 	if (arg.length) url += ("?" + arg.join("&"));
 
 	console.log(`Making GET request to: ${url}`);
@@ -75,9 +75,9 @@ export function createTodo(title, deadline) {
 		},
 		body: JSON.stringify({
 			title,
-			content: "",
+			content: "1",
 			deadline: deadline.unix(),
-			importance: 0
+			importance: 1
 		})
     }).then(res => {
         if (res.status !== 200)
@@ -117,9 +117,9 @@ export function editTodo(id, title, deadline) {
 		},
 		body: JSON.stringify({
 			title,
-			content: "",
+			content: "1",
 			deadline: deadline.unix(),
-			importance: 0
+			importance: 1
 		})
 	}).then(res => {
 		if (res.status !== 200)

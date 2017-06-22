@@ -145,8 +145,15 @@ export function createTodo(title, deadline) {
 export function toggleTodoAccomplish(id) {
 	return (dispatch, getState) => {
 		dispatch(startToggleTodoAccomplish(id));
+		let nextAcc;
+		getState().todoList.todos.forEach(t => {
+			if (t.id === id) {
+				if (t.doneTs !== null) nextAcc = false;
+				else nextAcc = true;
+			}
+		});
 
-		return toggleTodoAccomplishFromApi(id).then(todo => {
+		return toggleTodoAccomplishFromApi(id, nextAcc).then(todo => {
 			dispatch(endToggleTodoAccomplish(todo.id));
 		}).catch(err => {
 			dispatch(endToggleTodoAccomplish());
